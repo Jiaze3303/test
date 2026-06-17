@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>海康机器人 · 读码器选型工具</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-window">
+
+  <!-- TITLEBAR -->
+  <div class="titlebar">
+    <div class="logo-area">
+      <h1>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
+          <rect x="2" y="2" width="9" height="9" rx="1" fill="#f76504"/>
+          <rect x="13" y="2" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/>
+          <rect x="2" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/>
+          <rect x="13" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.15)"/>
+        </svg>
+        HIKROBOT · 读码器选型工具
+        <span class="badge">V2.2</span>
+      </h1>
+    </div>
+    <div class="status-badge">计算结果仅供参考，建议实测验证</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="app-body">
+
+    <!-- NAV SIDEBAR -->
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-page="page-selection" role="tab">
+        <span class="nav-tab-icon">⚡</span>智能选型
+      </button>
+      <button class="nav-tab" data-page="page-competitor" role="tab">
+        <span class="nav-tab-icon">🔬</span>竞品分析
+      </button>
+      <button class="nav-tab" data-page="page-bom" role="tab">
+        <span class="nav-tab-icon">📋</span>配单表
+      </button>
+    </nav>
+
+    <!-- PAGE: 智能选型 -->
+    <div class="page active" id="page-selection">
+      <div class="main-content">
+        <div class="left-panel">
+          <div class="card">
+            <div class="card-header">📋 核心参数配置</div>
+            
+            <div class="form-section">
+              <div class="form-section-title">🔖 码制 &amp; 模块尺寸</div>
+              <div class="compact-grid">
+                <div>
+                  <label>码制类型 *</label>
+                  <select id="codeType">
+                    <option value="">-- 请选择 --</option>
+                    <option value="QR">二维码 (2D)</option>
+                    <option value="Code39">一维码 (1D)</option>
+                  </select>
+                </div>
+                <div>
+                  <label>模块尺寸 *</label>
+                  <div class="input-row">
+                    <input type="number" id="moduleSize" value="" placeholder="请输入">
+                    <select id="moduleUnit"><option value="mil">mil</option><option value="mm" selected>mm</option></select>
+                  </div>
+                </div>
+              </div>
+              <div class="code-img-container">
+                <img src="code-type-desc.png" alt="码制类型与模块尺寸说明" class="code-type-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22120%22%3E%3Crect width=%22400%22 height=%22120%22 fill=%22%23fef3e8%22 rx=%2212%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23f76504%22 font-size=%2214%22%3E📖 码制示意：QR / Code39%3C/text%3E%3C/svg%3E';">
+                <div class="img-caption">💡 码制类型与模块尺寸说明</div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">📐 距离 &amp; 视野参数</div>
+              <div class="compact-grid compact-grid-1">
+                <div>
+                  <label>工作距离 *</label>
+                  <div class="input-row">
+                    <input type="number" id="workingDistance" value="" placeholder="请输入">
+                    <select id="distanceUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
+                  </div>
+                </div>
+                <div>
+                  <label>期望视野宽度 *</label>
+                  <div class="input-row">
+                    <input type="number" id="fovWidth" value="" placeholder="请输入">
+                    <select id="fovUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
+                  </div>
+                </div>
+                <div>
+                  <label>期望视野高度 *</label>
+                  <div class="input-row">
+                    <input type="number" id="fovHeight" value="" placeholder="请输入">
+                    <select id="fovHeightUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary" id="runBtn">⚡ 开始智能选型</button>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="card">
+            <div class="card-header">📐 方案示意图</div>
+            <div id="calcContent">
+              <div class="schematic-wrap">
+                <svg id="schematicSvg" viewBox="0 0 580 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block; background:#F5F7FA; border-radius:8px;">
+                  <rect width="580" height="300" fill="#F5F7FA" rx="8"/>
+                  <rect x="380" y="95" width="140" height="112" fill="#FFE8D6" stroke="#f76504" stroke-width="2.2" rx="6"/>
+                  <line x1="380" y1="120" x2="410" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="380" y1="150" x2="460" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="380" y1="180" x2="500" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="380" y1="200" x2="520" y2="110" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="400" y1="207" x2="520" y2="150" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="440" y1="207" x2="520" y2="190" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
+                  <line x1="380" y1="80" x2="520" y2="80" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowLeftRed)" marker-end="url(#arrowRightRed)"/>
+                  <text x="450" y="70" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估宽度</text>
+                  <text id="lblFovW" x="450" y="58" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <line x1="366" y1="95" x2="366" y2="207" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowUpRed)" marker-end="url(#arrowDownRed)"/>
+                  <text x="325" y="156" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估高度</text>
+                  <text id="lblFovH" x="325" y="169" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <rect x="42" y="122" width="56" height="56" fill="#1A2B4A" rx="8"/>
+                  <rect x="50" y="130" width="40" height="40" fill="#243556" rx="6"/>
+                  <circle cx="70" cy="150" r="14" fill="#0A1628" stroke="#f76504" stroke-width="2"/>
+                  <circle cx="70" cy="150" r="7" fill="#f76504" opacity="0.7"/>
+                  <circle cx="70" cy="150" r="3" fill="#ffffff"/>
+                  <circle cx="88" cy="168" r="4" fill="#f76504"/>
+                  <polygon points="70,150 380,95 380,207" fill="#f76504" opacity="0.08"/>
+                  <line x1="70" y1="150" x2="380" y2="95"  stroke="#f76504" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
+                  <line x1="70" y1="150" x2="380" y2="207" stroke="#f76504" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
+                  <line x1="70" y1="265" x2="380" y2="265" stroke="#4A5A6A" stroke-width="1.2" marker-start="url(#arrowLeftGray)" marker-end="url(#arrowRightGray)"/>
+                  <text x="225" y="282" fill="#4A5A6A" font-size="10" font-family="sans-serif" text-anchor="middle">工作距离</text>
+                  <text id="lblWd" x="225" y="260" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <text x="155" y="148" fill="#8A9BAC" font-size="9.5" font-family="sans-serif" text-anchor="middle">焦距</text>
+                  <text id="lblFocal" x="155" y="162" fill="#1A2332" font-size="10.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <defs>
+                    <marker id="arrowUpRed"    markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto"><path d="M3,0 L0,6 L6,6 Z" fill="#f76504"/></marker>
+                    <marker id="arrowDownRed"  markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><path d="M0,0 L6,0 L3,6 Z" fill="#f76504"/></marker>
+                    <marker id="arrowLeftRed"  markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#f76504"/></marker>
+                    <marker id="arrowRightRed" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f76504"/></marker>
+                    <marker id="arrowLeftGray"  markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#4A5A6A"/></marker>
+                    <marker id="arrowRightGray" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4A5A6A"/></marker>
+                  </defs>
+                </svg>
+                <div id="calcSummary" class="calc-summary-row">
+                  <div class="calc-chip">模块尺寸 <strong>—</strong></div>
+                  <div class="calc-chip">需求分辨率 <strong>— × —</strong></div>
+                  <div class="calc-chip">PPM <strong>—</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">🏆 最佳推荐型号</div>
+            <div id="top1Content"><div class="empty-state">等待选型结果...</div></div>
+            <button class="btn-outline" id="showModalBtn" disabled>📋 查看所有满足条件的型号清单</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: 竞品分析 -->
+    <div class="page" id="page-competitor">
+      <div class="cp-page">
+
+        <!-- 工具栏 -->
+        <div class="cp-toolbar">
+          <div class="cp-search-wrap">
+            <input type="text" id="cpSearchInput" class="cp-search-input" placeholder="搜索友商型号 / 海康型号，如 SR-1000、ID3013PM…" autocomplete="off">
+          </div>
+          <div class="cp-filter-wrap">
+            <span class="cp-filter-label">品牌筛选</span>
+            <select id="cpBrandSelect" class="cp-brand-select">
+              <option value="all">全部品牌</option>
+              <option value="Cognex">Cognex</option>
+              <option value="Keyence">Keyence</option>
+              <option value="Datalogic">Datalogic</option>
+              <option value="思谋">思谋</option>
+              <option value="华睿">华睿</option>
+              <option value="视界">视界</option>
+              <option value="新大陆">新大陆</option>
+            </select>
+          </div>
+          <button class="cp-btn-reset" id="cpResetBtn">重置</button>
+          <button class="cp-btn-expand" id="cpExpandAllBtn">📂 展开所有</button>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="cp-statsbar">
+          <span id="cpStatsMsg">共 0 条对标记录</span>
+          <span class="cp-statsbar-hint">蓝色 = 友商核心特点 · 绿色 = 海康竞争优势</span>
+        </div>
+
+        <!-- 结果区 -->
+        <div class="cp-result-area" id="cpResultArea">
+          <div class="cp-empty">✨ 点击「展开所有」浏览全部对标数据，或在搜索框输入关键词自动匹配</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGE: 配单表 -->
+    <div class="page" id="page-bom">
+      <div class="bom-page-wrap">
+
+        <!-- 左侧：选型配置面板 -->
+        <div class="bom-left">
+          <div class="bom-left-header">
+            <span class="bom-left-icon">📋</span>
+            <span class="bom-left-title">配单配置</span>
+          </div>
+          <div class="bom-left-inner">
+
+            <!-- 型号选择区 -->
+            <div class="bom-group">
+              <div class="bom-group-label">型号选择</div>
+              <div class="bom-field">
+                <div class="bom-field-label"><span class="bom-step-num">1</span> 产品大类</div>
+                <select class="bom-select" id="bomCatSel">
+                  <option value="">-- 请选择产品大类 --</option>
+                </select>
+              </div>
+              <div class="bom-field">
+                <div class="bom-field-label"><span class="bom-step-num">2</span> 产品系列</div>
+                <select class="bom-select" id="bomSerSel" disabled>
+                  <option value="">-- 请先选择大类 --</option>
+                </select>
+              </div>
+              <div class="bom-field">
+                <div class="bom-field-label"><span class="bom-step-num">3</span> 具体型号</div>
+                <select class="bom-select" id="bomModelSel" disabled>
+                  <option value="">-- 请先选择系列 --</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 选装配件 -->
+            <div class="bom-group bom-group-acc">
+              <div class="bom-group-label">选装配件</div>
+              <div class="bom-acc-list" id="bomAccList">
+                <div class="bom-acc-empty">请先完成产品型号选择</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 生成按钮固定在底部 -->
+          <div class="bom-left-footer">
+            <button class="bom-add-btn" id="bomAddToListBtn" disabled>⚡ 生成配单</button>
+          </div>
+        </div>
+
+        <!-- 右侧：配单明细 -->
+        <div class="bom-right">
+
+          <!-- 顶部工具栏 -->
+          <div class="bom-right-toolbar">
+            <div class="bom-right-title">配单明细</div>
+            <div class="bom-toolbar-actions">
+              <div class="bom-stats-row">
+                <div class="bom-stat">
+                  <div class="bom-stat-num" id="bomStatTotal">0</div>
+                  <div class="bom-stat-label">配单项</div>
+                </div>
+                <div class="bom-stat-divider"></div>
+                <div class="bom-stat">
+                  <div class="bom-stat-num" id="bomStatMain">0</div>
+                  <div class="bom-stat-label">读码器</div>
+                </div>
+                <div class="bom-stat-divider"></div>
+                <div class="bom-stat">
+                  <div class="bom-stat-num" id="bomStatAcc">0</div>
+                  <div class="bom-stat-label">配件</div>
+                </div>
+              </div>
+              <div class="bom-toolbar-btns">
+                <button class="cp-btn" id="bomQClearBtn">✕ 清空</button>
+                <button class="cp-btn dark" id="bomQExportBtn">⬇ 导出 CSV</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 图例 -->
+          <div class="bom-legend">
+            <span class="bom-legend-item main">■ 读码器主机</span>
+            <span class="bom-legend-item std">■ 标配配件</span>
+            <span class="bom-legend-item opt">■ 选配配件</span>
+          </div>
+
+          <!-- 表格 -->
+          <div class="bom-table-scroll">
+            <table class="bom-q-table">
+              <thead>
+                <tr>
+                  <th style="width:32px;text-align:center">#</th>
+                  <th style="width:80px">类型</th>
+                  <th style="min-width:160px">物料名称</th>
+                  <th>描述</th>
+                  <th style="width:100px">物料代码</th>
+                  <th style="width:44px;text-align:center">操作</th>
+                </tr>
+              </thead>
+              <tbody id="bomQBody">
+                <tr><td colspan="7" class="bom-q-empty">请选择型号，配单将自动生成</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bom-right-footer">
+            <span id="bomQCount">共 0 行</span>
+            <span class="bom-footer-hint">💡 点击物料名称可编辑</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modelModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>📌 满足过滤条件的推荐型号</h2>
+      <button class="modal-close" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="series-filter-bar">
+      <span class="filter-label">🔍 按系列筛选</span>
+      <div class="filter-check-group" id="seriesCheckGroup">
+        <label class="series-check"><input type="checkbox" value="ID800" checked> <span class="check-dot"></span> ID800</label>
+        <label class="series-check"><input type="checkbox" value="ID2000" checked> <span class="check-dot"></span> ID2000</label>
+        <label class="series-check"><input type="checkbox" value="ID3000" checked> <span class="check-dot"></span> ID3000</label>
+        <label class="series-check"><input type="checkbox" value="ID5000" checked> <span class="check-dot"></span> ID5000</label>
+      </div>
+      <button class="filter-reset-btn" id="resetSeriesFilterBtn">全选</button>
+    </div>
+    <div id="modalModelList" class="modal-model-list">
+      <div class="empty-state">请先进行选型</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 脚本加载 ===== -->
+<!-- 1. 产品数据库 -->
+<script src="js/product_db.js"></script>
+
+<!-- 2. 主应用 -->
+<script src="js/app.js"></script>
+
+<!-- 3. 配单表 -->
+<script src="js/bom.js"></script>
+
+<!-- 4. 加载配单数据（script 标签兼容 file:// 本地打开） -->
+<!-- 📌 更新数据时只需修改 js/data/peidan.js 文件内容 -->
+<script src="js/data/peidan.js"></script>
+
+
+  <!-- 选配配件 Modal -->
+  <div class="acc-modal-overlay" id="accModal">
+    <div class="acc-modal-box">
+      <div class="acc-modal-header">
+        <span class="acc-modal-title" id="accModalTitle">选装配件</span>
+        <button class="acc-modal-close" id="accModalClose">✕</button>
+      </div>
+      <div class="acc-modal-body">
+        <div class="acc-modal-list" id="accModalList"></div>
+      </div>
+      <div class="acc-modal-footer">
+        <span class="acc-modal-hint">点击配件行即可勾选/取消</span>
+        <button class="acc-modal-done" id="accModalClose2">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/competitor.js"></script>
+</body>
+</html>
