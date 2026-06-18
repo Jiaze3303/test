@@ -35,7 +35,7 @@
         <span class="nav-tab-icon">⚡</span>智能选型
       </button>
       <button class="nav-tab" data-page="page-competitor" role="tab">
-        <span class="nav-tab-icon">🔬</span>竞品分析
+        <span class="nav-tab-icon">🔬</span>竞品对标
       </button>
       <button class="nav-tab" data-page="page-bom" role="tab">
         <span class="nav-tab-icon">📋</span>配单表
@@ -260,19 +260,31 @@
         <!-- 右侧：配单明细 -->
         <div class="bom-right">
 
+          <!-- 右侧顶部 header（与左侧配单配置对齐） -->
+          <div class="bom-right-header">
+            <span class="bom-left-icon">📊</span>
+            <span class="bom-left-title">配单明细</span>
+          </div>
+
           <!-- 顶部工具栏 -->
           <div class="bom-right-toolbar">
-            <div class="bom-right-title">配单明细</div>
+            <div class="bom-toolbar-left">
+              <div class="bom-legend-inline">
+                <span class="bom-legend-item main">■ 主机</span>
+                <span class="bom-legend-item std">■ 标配</span>
+                <span class="bom-legend-item opt">■ 选配</span>
+              </div>
+            </div>
             <div class="bom-toolbar-actions">
               <div class="bom-stats-row">
                 <div class="bom-stat">
                   <div class="bom-stat-num" id="bomStatTotal">0</div>
-                  <div class="bom-stat-label">配单项</div>
+                  <div class="bom-stat-label">总计</div>
                 </div>
                 <div class="bom-stat-divider"></div>
                 <div class="bom-stat">
                   <div class="bom-stat-num" id="bomStatMain">0</div>
-                  <div class="bom-stat-label">读码器</div>
+                  <div class="bom-stat-label">主机</div>
                 </div>
                 <div class="bom-stat-divider"></div>
                 <div class="bom-stat">
@@ -281,17 +293,10 @@
                 </div>
               </div>
               <div class="bom-toolbar-btns">
-                <button class="cp-btn" id="bomQClearBtn">✕ 清空</button>
-                <button class="cp-btn dark" id="bomQExportBtn">⬇ 导出 CSV</button>
+                <button class="bom-btn-reset" id="bomQClearBtn">重置</button>
+                <button class="bom-btn-export" id="bomQExportBtn">⬇ 导出 CSV</button>
               </div>
             </div>
-          </div>
-
-          <!-- 图例 -->
-          <div class="bom-legend">
-            <span class="bom-legend-item main">■ 读码器主机</span>
-            <span class="bom-legend-item std">■ 标配配件</span>
-            <span class="bom-legend-item opt">■ 选配配件</span>
           </div>
 
           <!-- 表格 -->
@@ -299,12 +304,12 @@
             <table class="bom-q-table">
               <thead>
                 <tr>
-                  <th style="width:32px;text-align:center">#</th>
-                  <th style="width:80px">类型</th>
-                  <th style="min-width:160px">物料名称</th>
-                  <th>描述</th>
-                  <th style="width:100px">物料代码</th>
-                  <th style="width:44px;text-align:center">操作</th>
+                  <th style="width:28px;text-align:center">#</th>
+                  <th style="width:88px;text-align:center">类型</th>
+                  <th style="min-width:120px;text-align:center">物料名称</th>
+                  <th style="text-align:center">描述</th>
+                  <th style="width:96px;text-align:center">物料代码</th>
+                  <th style="width:36px;text-align:center">操作</th>
                 </tr>
               </thead>
               <tbody id="bomQBody">
@@ -315,7 +320,7 @@
 
           <div class="bom-right-footer">
             <span id="bomQCount">共 0 行</span>
-            <span class="bom-footer-hint">💡 点击物料名称可编辑</span>
+            <span class="bom-footer-hint">💡 蓝色 = 主机 · 浅蓝 = 标配 · 浅橙 = 选配</span>
           </div>
         </div>
 
