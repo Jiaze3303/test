@@ -1411,7 +1411,7 @@ select:focus, input:focus {
   color: #fff;
   padding: 0.18rem 0.6rem;
   border-radius: 20px;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
 }
