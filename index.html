@@ -43,6 +43,9 @@
       <button class="nav-tab" data-page="page-bom" role="tab">
         <span class="nav-tab-icon">📋</span>配单表
       </button>
+      <button class="nav-tab" data-page="page-mapping" role="tab">
+        <span class="nav-tab-icon">🔄</span>对照表
+      </button>
     </nav>
 
     <!-- PAGE: 智能选型 -->
@@ -330,6 +333,62 @@
       </div>
     </div>
 
+    <!-- PAGE: 对照表 -->
+    <div class="page" id="page-mapping">
+      <div class="mp-page-wrap">
+      <div class="mp-page">
+
+        <!-- 工具栏 -->
+        <div class="mp-toolbar">
+          <div class="mp-search-wrap">
+            <span class="mp-search-icon">🔍</span>
+            <input type="text" id="mpSearchInput" class="mp-search-input"
+              placeholder="搜索基线/经销 型号名称或物料代码，如 MV-ID803、IDA02X…" autocomplete="off">
+          </div>
+          <div class="mp-filter-wrap">
+            <span class="mp-filter-label">系列筛选</span>
+            <select id="mpCatSelect" class="mp-cat-select">
+              <option value="all">全部系列</option>
+            </select>
+          </div>
+          <button class="mp-btn-reset" id="mpResetBtn">重置</button>
+          <button class="mp-btn-collapse" id="mpCollapseAllBtn">📁 全部收起</button>
+          <button class="mp-btn-expand" id="mpExpandAllBtn">📂 全部展开</button>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="mp-statsbar">
+          <span id="mpStats">共 0 条记录</span>
+          <span class="mp-statsbar-hint">基线 = 直销物料 · 经销 = 渠道物料 · 每行一一对应</span>
+        </div>
+
+        <!-- 表格 -->
+        <div class="mp-table-scroll">
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th style="width:52px;text-align:center">#</th>
+                <th>基线型号</th>
+                <th style="width:130px;text-align:center">基线代码</th>
+                <th>经销型号</th>
+                <th style="width:130px;text-align:center">经销代码</th>
+              </tr>
+            </thead>
+            <tbody id="mpTableBody">
+              <tr><td colspan="5" class="mp-empty">正在加载对照表数据…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mp-footer">
+          <span id="mpFooterCount"></span>
+          <span class="mp-footer-hint">💡 支持搜索基线和经销的型号名称及物料代码</span>
+        </div>
+
+      </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -371,6 +430,7 @@
 <script src="js/data/peidan.js"></script>
 
 
+
   <!-- 选配配件 Modal -->
   <div class="acc-modal-overlay" id="accModal">
     <div class="acc-modal-box">
@@ -389,5 +449,7 @@
   </div>
 
   <script src="js/competitor.js"></script>
+  <script src="js/data/mapping.js"></script>
+  <script src="js/mapping_module.js"></script>
 </body>
 </html>
