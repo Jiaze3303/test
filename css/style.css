@@ -365,22 +365,6 @@ select:focus, input:focus {
 /* ===== SCHEMATIC ===== */
 .schematic-wrap { display: flex; flex-direction: column; gap: 0.85rem; }
 #schematicSvg { border-radius: 6px; border: 1px solid var(--border); background: var(--bg-panel); }
-.calc-summary-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.calc-chip {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.35rem 0.8rem;
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-}
-.calc-chip strong { color: var(--text-primary); font-weight: 700; }
-.calc-chip.highlight { border-color: var(--brand-red); background: var(--brand-red-lt); }
-.calc-chip.highlight strong { color: var(--brand-red); }
-
 .result-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1584,9 +1568,7 @@ select:focus, input:focus {
   .compact-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
   .compact-grid-1 { grid-template-columns: 1fr; }
 
-  #schematicSvg { transform: scale(0.75); transform-origin: top center; }
-  #calcSummary { flex-wrap: nowrap; overflow-x: auto; gap: 0.3rem; }
-  .calc-chip { flex-shrink: 0; font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+  #schematicSvg { width: 100%; height: auto; }
 
   .result-main { flex-direction: column; gap: 0.4rem; }
   .model-preview { flex-wrap: wrap; font-size: 0.68rem; }
