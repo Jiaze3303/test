@@ -1626,17 +1626,18 @@ select:focus, input:focus {
     border-radius: 8px;
     margin-right: 0;
     flex-shrink: 0;
-    height: 56vh;
+    height: auto;
+    overflow: visible;
   }
   .bom-left {
     width: 100%;
     min-width: 0;
     border-right: none;
     border-bottom: none;
-    overflow: hidden;
+    overflow: visible;
     flex-shrink: 0;
     border-radius: 8px;
-    height: 50vh;
+    height: auto;
   }
   .bom-left-header,
   .bom-right-header {
@@ -1650,7 +1651,7 @@ select:focus, input:focus {
   .bom-left-inner {
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: visible;
     padding: 0.6rem 0.8rem;
     gap: 0.6rem;
   }
@@ -1711,7 +1712,7 @@ select:focus, input:focus {
 
   .bom-table-scroll {
     overflow-x: auto;
-    overflow-y: auto;
+    overflow-y: visible;
   }
 
   .bom-q-table {
