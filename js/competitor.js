@@ -160,7 +160,6 @@
   function initCompetitor() {
     var searchInput = document.getElementById('cpSearchInput');
     var brandSelect = document.getElementById('cpBrandSelect');
-    var resetBtn = document.getElementById('cpResetBtn');
     var expandBtn = document.getElementById('cpExpandAllBtn');
 
     if (!searchInput) return; // 页面未就绪
@@ -173,7 +172,6 @@
       allCardsExpanded = false;
       autoFilter();
     });
-    resetBtn.addEventListener('click', resetAll);
     expandBtn.addEventListener('click', function() {
       allCardsExpanded = !allCardsExpanded;
       renderCardList();
