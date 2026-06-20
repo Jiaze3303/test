@@ -1818,16 +1818,16 @@ select:focus, input:focus {
     min-width: 0;
   }
 
-  /* ── 选配配件 Modal 移动端优化 ── */
+  /* ── 选配配件 Modal 移动端优化：居中显示 ── */
   .acc-modal-overlay {
-    padding: 0;
-    align-items: flex-end;
+    padding: 1rem;
+    align-items: center;
   }
 
   .acc-modal-box {
     max-width: 100%;
-    max-height: 85vh;
-    border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+    border-radius: 16px;
     width: 100%;
   }
 
