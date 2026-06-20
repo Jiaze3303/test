@@ -70,12 +70,6 @@
     set('lblFovW', (estW !== null && estW !== undefined) ? estW + ' mm' : '— mm');
     set('lblFovH', (estH !== null && estH !== undefined) ? estH + ' mm' : '— mm');
     set('lblFocal', focal ? focal + ' mm' : '— mm');
-    var ppmText = (ppm !== null && ppm !== undefined) ? ppm.toFixed(2) : '—';
-    document.getElementById('calcSummary').innerHTML = 
-      '<div class="calc-chip">模块尺寸 <strong>' + moduleMM.toFixed(3) + ' mm</strong></div>' +
-      '<div class="calc-chip">需求分辨率 <strong>' + reqW + '×' + reqH + ' px</strong></div>' +
-      '<div class="calc-chip highlight">PPM <strong>' + ppmText + '</strong></div>' +
-      '<div class="calc-chip">工作距离 <strong>' + wdMM + ' mm</strong></div>';
   }
 
   function resetSchematic() {
@@ -84,10 +78,6 @@
     set('lblFovW', '— mm');
     set('lblFovH', '— mm');
     set('lblFocal', '— mm');
-    document.getElementById('calcSummary').innerHTML = 
-      '<div class="calc-chip">模块尺寸 <strong>—</strong></div>' +
-      '<div class="calc-chip">需求分辨率 <strong>— × —</strong></div>' +
-      '<div class="calc-chip">PPM <strong>—</strong></div>';
   }
 
   // ─── 选型计算 ───
