@@ -1626,8 +1626,7 @@ select:focus, input:focus {
     border-radius: 8px;
     margin-right: 0;
     flex-shrink: 0;
-    height: 420px;
-    max-height: 60vh;
+    height: 70vh;
   }
   .bom-left {
     width: 100%;
@@ -1638,7 +1637,7 @@ select:focus, input:focus {
     flex-shrink: 0;
     border-radius: 8px;
     height: auto;
-    max-height: 50vh;
+    max-height: 38vh;
   }
   .bom-left-header,
   .bom-right-header {
