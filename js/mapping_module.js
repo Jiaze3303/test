@@ -104,23 +104,28 @@
         render();
       });
     });
+
+    updateToggleBtn();
   }
 
-  function expandAll() {
-    currentData.forEach(function(r) { expandedCats[r.cat] = true; });
+  function isAllExpanded() {
+    var cats = getUniqueCats();
+    return cats.length > 0 && cats.every(function(c) { return expandedCats[c]; });
+  }
+
+  function updateToggleBtn() {
+    var btn = document.getElementById('mpToggleAllBtn');
+    if (!btn) return;
+    btn.textContent = isAllExpanded() ? '📁 全部收起' : '📂 全部展开';
+  }
+
+  function toggleAll() {
+    if (isAllExpanded()) {
+      expandedCats = {};
+    } else {
+      currentData.forEach(function(r) { expandedCats[r.cat] = true; });
+    }
     render();
-  }
-
-  function collapseAll() {
-    expandedCats = {};
-    render();
-  }
-
-  function reset() {
-    document.getElementById('mpSearchInput').value = '';
-    document.getElementById('mpCatSelect').value = 'all';
-    expandedCats = {};
-    doFilter();
   }
 
   function applyData(data) {
@@ -135,7 +140,6 @@
   function init() {
     var searchInput = document.getElementById('mpSearchInput');
     var catSelect   = document.getElementById('mpCatSelect');
-    var resetBtn    = document.getElementById('mpResetBtn');
     if (!searchInput) return;
 
     // 搜索防抖
@@ -145,12 +149,9 @@
       timer = setTimeout(doFilter, 200);
     });
     catSelect.addEventListener('change', doFilter);
-    resetBtn.addEventListener('click', reset);
 
-    var expandAllBtn = document.getElementById('mpExpandAllBtn');
-    var collapseAllBtn = document.getElementById('mpCollapseAllBtn');
-    if (expandAllBtn) expandAllBtn.addEventListener('click', expandAll);
-    if (collapseAllBtn) collapseAllBtn.addEventListener('click', collapseAll);
+    var toggleAllBtn = document.getElementById('mpToggleAllBtn');
+    if (toggleAllBtn) toggleAllBtn.addEventListener('click', toggleAll);
 
     if (window.MAPPING_DATA) applyData(window.MAPPING_DATA);
     else {
