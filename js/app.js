@@ -64,7 +64,7 @@
 
   var cachedFilteredList = null;
 
-  function updateSchematic(wdMM, estW, estH, moduleMM, focal, ppm, reqW, reqH) {
+  function updateSchematic(wdMM, estW, estH, focal) {
     var set = function(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
     set('lblWd', wdMM + ' mm');
     set('lblFovW', (estW !== null && estW !== undefined) ? estW + ' mm' : '— mm');
@@ -210,9 +210,9 @@
         '</div>';
       var estW = best.fovEst ? best.fovEst.width : null;
       var estH = best.fovEst ? best.fovEst.height : null;
-      updateSchematic(wdMM, estW, estH, moduleMM, best.model.focal, best.ppm, requiredPixelsW, requiredPixelsH);
+      updateSchematic(wdMM, estW, estH, best.model.focal);
     } else {
-      updateSchematic(wdMM, null, null, moduleMM, null, null, requiredPixelsW, requiredPixelsH);
+      updateSchematic(wdMM, null, null, null);
       document.getElementById('top1Content').innerHTML = 
         '<div class="warning-badge">⚠️ 没有找到同时满足所有条件的型号<br>请调整参数后重试</div>';
     }
