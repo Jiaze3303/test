@@ -1,4 +1,4 @@
-# HIKROBOT 读码器选型工具 V2.2
+# HIKROBOT 读码器选型工具 V3.0
 
 海康机器人读码器（Code Reader）智能选型 / 竞品对标 / 配单生成 / 基线-经销对照查询工具，纯前端实现，无需服务器，双击 `index.html` 即可在浏览器中打开使用。
 
@@ -116,4 +116,4 @@ if (window.MAPPING && window.MAPPING.applyData) { window.MAPPING.applyData(windo
 
 ## 版本
 
-V2.2 · 最后更新 2026-06-20
+V3.0 · 最后更新 2026-06-21
