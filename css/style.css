@@ -1636,8 +1636,7 @@ select:focus, input:focus {
     padding: 0.5rem 0.8rem;
     height: 40px;
   }
-  .bom-left-title,
-  .bom-right-title {
+  .bom-left-title {
     font-size: 0.7rem;
   }
   .bom-left-inner {
@@ -1918,8 +1917,7 @@ select:focus, input:focus {
     padding: 0.4rem 0.5rem;
     height: 34px;
   }
-  .bom-left-title,
-  .bom-right-title {
+  .bom-left-title {
     font-size: 0.6rem;
   }
   .bom-right-toolbar {
