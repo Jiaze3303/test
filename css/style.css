@@ -91,7 +91,7 @@ table, td, th { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .badge {
   background: var(--brand-red);
   color: #ffffff;
-  padding: 0.2rem 0.65rem;
+  padding: 0.22rem 0.7rem 0.2rem;
   border-radius: 4px;
   font-size: 0.58rem;
   font-weight: 700;
@@ -99,7 +99,10 @@ table, td, th { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   line-height: 1;
+  text-align: center;
+  text-indent: 0.8px; /* 抵消 letter-spacing 在最后一字符后产生的视觉右偏，使其居中 */
 }
 
 .status-badge {
