@@ -238,6 +238,14 @@
 
   // ─── 选配配件 Modal ───
   var CABLE_CATS = ['线缆', '电源线', '网线'];
+
+  // 各大类的提示信息，key 为 category 名称
+  var CAT_WARNINGS = {
+    '线缆':  '7m线缆无法配置下单，须订单备注删除标配线缆，再额外下单！',
+    '电源线': '7m线缆无法配置下单，须订单备注删除标配线缆，再额外下单！',
+    '网线':  '7m线缆无法配置下单，须订单备注删除标配线缆，再额外下单！',
+    '电源':  '下单适配器或开关电源时，需要选择对应线缆。'
+  };
   var CABLE_LENGTHS = ['2m', '3m', '3.5m', '5m', '7m', '10m', '15m'];
   var CABLE_TEXTURES = ['普通', '高柔', '超柔', '弯头'];
 
@@ -305,13 +313,14 @@
     var listEl = document.getElementById('accModalList');
     var isCableCat = CABLE_CATS.indexOf(catName) !== -1;
 
+    // 从映射表获取提示信息（线缆/电源等各类别可独立配置）
+    var warningMsg = CAT_WARNINGS[catName] || '';
+    var warningHtml = warningMsg
+      ? '<div class="acc-modal-warning"><span class="acc-modal-warning-icon">⚠️</span>' + warningMsg + '</div>'
+      : '';
+
     // 线缆类：警告 + 筛选器
-    var warningHtml = '';
     if (isCableCat) {
-      warningHtml = '<div class="acc-modal-warning">' +
-        '<span class="acc-modal-warning-icon">⚠️</span>' +
-        '7m线缆无法配置下单，须订单备注删除标配线缆，再额外下单！' +
-        '</div>';
 
       // 收集当前 items 里实际出现的长度和材质
       var availLens = [], availTexs = [];
@@ -376,9 +385,16 @@
       });
 
     } else {
-      // 非线缆类：隐藏 filter 区域，直接渲染全部配件
+      // 非线缆类：隐藏 filter 区域；若有提示信息则用 filterContainer 显示
       var filterContainer = document.getElementById('accModalFilter');
-      if (filterContainer) filterContainer.style.display = 'none';
+      if (filterContainer) {
+        if (warningHtml) {
+          filterContainer.innerHTML = warningHtml;
+          filterContainer.style.display = 'block';
+        } else {
+          filterContainer.style.display = 'none';
+        }
+      }
       renderAccModalList(listEl, items, '', '');
     }
 
