@@ -2160,3 +2160,80 @@ select:focus, input:focus {
   .mp-footer { padding: 0 0.8rem; }
 }
 
+/* 配件弹窗线缆警告提示 */
+.acc-modal-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: #FFF8E1;
+  border: 1.5px solid #F59E0B;
+  border-radius: 6px;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #92400E;
+  line-height: 1.5;
+}
+.acc-modal-warning-icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin-top: 0.05rem;
+}
+
+/* ── 配件弹窗筛选条 ── */
+.acc-modal-filter-wrap {
+  flex-shrink: 0;
+  padding: 0 1rem 0;
+}
+.acc-modal-filter {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.acc-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.acc-filter-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 2.5rem;
+  flex-shrink: 0;
+}
+.acc-filter-tag {
+  padding: 0.2rem 0.65rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+.acc-filter-tag:hover {
+  border-color: var(--brand-red-mid);
+  color: var(--brand-red);
+}
+.acc-filter-tag.active {
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+  color: #fff;
+}
+.acc-modal-no-result {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  padding: 2rem 0;
+}
+
