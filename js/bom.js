@@ -237,14 +237,39 @@
   }
 
   // ─── 选配配件 Modal ───
-  function openAccModal(catName, items) {
-    var modal = document.getElementById('accModal');
-    if (!modal) return;
-    document.getElementById('accModalTitle').textContent = getCatIcon(catName) + ' ' + catName;
+  var CABLE_CATS = ['线缆', '电源线', '网线'];
+  var CABLE_LENGTHS = ['2m', '3m', '3.5m', '5m', '7m', '10m', '15m'];
+  var CABLE_TEXTURES = ['普通', '高柔', '超柔', '弯头'];
 
-    var listEl = document.getElementById('accModalList');
+  // 从名称中提取长度/材质标签（用于筛选）
+  function getCableTags(name) {
+    var lengths = [], textures = [];
+    CABLE_LENGTHS.forEach(function(l) {
+      if (name.indexOf(l) !== -1) lengths.push(l);
+    });
+    CABLE_TEXTURES.forEach(function(t) {
+      if (name.indexOf(t) !== -1) textures.push(t);
+    });
+    return { lengths: lengths, textures: textures };
+  }
+
+  // 渲染弹窗配件列表（支持筛选）
+  function renderAccModalList(listEl, items, filterLen, filterTex) {
     var html = '';
-    items.forEach(function(a) {
+    var filtered = items.filter(function(a) {
+      if (!filterLen && !filterTex) return true;
+      var tags = getCableTags(a.name);
+      var lenOK = !filterLen || tags.lengths.indexOf(filterLen) !== -1;
+      var texOK = !filterTex || tags.textures.indexOf(filterTex) !== -1;
+      return lenOK && texOK;
+    });
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = '<div class="acc-modal-no-result">无匹配配件</div>';
+      return;
+    }
+
+    filtered.forEach(function(a) {
       var checked = !!selState.accCodes[a._key];
       html += '<div class="acc-modal-item' + (checked ? ' checked' : '') + '" data-key="' + esc(a._key) + '">' +
         '<div class="acc-modal-check">' + (checked ? '✓' : '') + '</div>' +
@@ -267,8 +292,95 @@
         if (checkEl) checkEl.textContent = isChecked ? '✓' : '';
         autoGenerateBOM();
         renderAccList();
+        bindAccCatEvents();
       });
     });
+  }
+
+  function openAccModal(catName, items) {
+    var modal = document.getElementById('accModal');
+    if (!modal) return;
+    document.getElementById('accModalTitle').textContent = getCatIcon(catName) + ' ' + catName;
+
+    var listEl = document.getElementById('accModalList');
+    var isCableCat = CABLE_CATS.indexOf(catName) !== -1;
+
+    // 线缆类：警告 + 筛选器
+    var warningHtml = '';
+    if (isCableCat) {
+      warningHtml = '<div class="acc-modal-warning">' +
+        '<span class="acc-modal-warning-icon">⚠️</span>' +
+        '7m线缆无法配置下单，须订单备注删除标配线缆，再额外下单！' +
+        '</div>';
+
+      // 收集当前 items 里实际出现的长度和材质
+      var availLens = [], availTexs = [];
+      items.forEach(function(a) {
+        var tags = getCableTags(a.name);
+        tags.lengths.forEach(function(l) { if (availLens.indexOf(l) === -1) availLens.push(l); });
+        tags.textures.forEach(function(t) { if (availTexs.indexOf(t) === -1) availTexs.push(t); });
+      });
+      // 按预设顺序排
+      availLens = CABLE_LENGTHS.filter(function(l) { return availLens.indexOf(l) !== -1; });
+      availTexs = CABLE_TEXTURES.filter(function(t) { return availTexs.indexOf(t) !== -1; });
+
+      var filterHtml = '';
+      if (availLens.length > 0 || availTexs.length > 0) {
+        filterHtml = '<div class="acc-modal-filter">';
+        if (availLens.length > 0) {
+          filterHtml += '<div class="acc-filter-row">';
+          filterHtml += '<span class="acc-filter-label">长度</span>';
+          filterHtml += '<button class="acc-filter-tag active" data-type="len" data-val="">全部</button>';
+          availLens.forEach(function(l) {
+            filterHtml += '<button class="acc-filter-tag" data-type="len" data-val="' + l + '">' + l + '</button>';
+          });
+          filterHtml += '</div>';
+        }
+        if (availTexs.length > 0) {
+          filterHtml += '<div class="acc-filter-row">';
+          filterHtml += '<span class="acc-filter-label">材质</span>';
+          filterHtml += '<button class="acc-filter-tag active" data-type="tex" data-val="">全部</button>';
+          availTexs.forEach(function(t) {
+            filterHtml += '<button class="acc-filter-tag" data-type="tex" data-val="' + t + '">' + t + '</button>';
+          });
+          filterHtml += '</div>';
+        }
+        filterHtml += '</div>';
+      }
+
+      // 组装 modal body：warning + filter + list容器
+      var filterContainer = document.getElementById('accModalFilter');
+      if (filterContainer) {
+        filterContainer.innerHTML = warningHtml + filterHtml;
+        filterContainer.style.display = 'block';
+      }
+
+      // 初始渲染全部
+      renderAccModalList(listEl, items, '', '');
+
+      // 绑定筛选按钮事件
+      var activeLen = '', activeTex = '';
+      filterContainer.querySelectorAll('.acc-filter-tag').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var type = btn.dataset.type;
+          var val = btn.dataset.val;
+          // 同组按钮切换 active
+          filterContainer.querySelectorAll('.acc-filter-tag[data-type="' + type + '"]').forEach(function(b) {
+            b.classList.remove('active');
+          });
+          btn.classList.add('active');
+          if (type === 'len') activeLen = val;
+          else activeTex = val;
+          renderAccModalList(listEl, items, activeLen, activeTex);
+        });
+      });
+
+    } else {
+      // 非线缆类：隐藏 filter 区域，直接渲染全部配件
+      var filterContainer = document.getElementById('accModalFilter');
+      if (filterContainer) filterContainer.style.display = 'none';
+      renderAccModalList(listEl, items, '', '');
+    }
 
     modal.classList.add('active');
   }
