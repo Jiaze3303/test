@@ -1,5 +1,5 @@
 // HIKROBOT 读码器产品数据库
-// 在 index.html 中通过 <script src="product_db.js"> 引入
+// 在 index.html 中通过 <script src="js/data/product_db.js"> 引入
 
 const PRODUCT_DB = [
     { model: "ID803M-03M",   series: "ID800",  resolution: { w: 640,  h: 480  }, pixelSize: 3.7,  focal: 3.1,  interface: "USB2.0、RS232、RJ45",           protection: "IP54", workingDist: { min: 120, max: 120  } },

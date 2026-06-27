@@ -1,6 +1,6 @@
 /**
  * 主应用模块 - 导航切换、智能选型计算
- * 依赖：product_db.js (PRODUCT_DB)
+ * 依赖：js/data/product_db.js (PRODUCT_DB)
  */
 
 (function() {

@@ -9,15 +9,16 @@
 ```
 hik/
 ├── index.html              # 主页面，包含四个功能页签
+├── db_editor.html           # 数据库编辑器（可视化编辑全部数据文件）
 ├── style.css                # 全局样式（含 PC 端 / 移动端响应式）
 ├── code-type-desc.png        # 码制类型说明图（选型页用，缺失时自动用占位 SVG 兜底）
 └── js/
     ├── app.js                 # 智能选型模块：导航切换 + PPM/视野计算逻辑
-    ├── product_db.js           # 读码器产品数据库（PRODUCT_DB，供 app.js 选型用）
     ├── bom.js                  # 配单表模块：型号树、选配件弹窗、自动生成配单、导出 CSV
-    ├── competitor.js            # 竞品对标模块：39 条品牌对标数据、搜索/筛选/展开
     ├── mapping_module.js        # 基线-经销对照表模块：搜索/筛选/分组折叠
     └── data/
+        ├── product_db.js         # 读码器产品数据库（PRODUCT_DB，供 app.js 选型用）
+        ├── competitor.js          # 竞品对标数据：39 条品牌对标记录
         ├── peidan.js             # 配单数据源：型号 + 标配/选配配件清单（按 productModel 维度）
         └── mapping.js            # 对照表数据源：424 条基线↔经销型号映射（41 个系列）
 ```
