@@ -587,9 +587,17 @@ function handleImport(e){
           state.mapping=arr;
           switchTab('mapping');
           toast('✅ 对照表已导入，共 '+state.mapping.length+' 条','success');
-        } else if(raw.indexOf('competitorDB')!==-1){
-          var start=raw.indexOf('[',raw.indexOf('competitorDB'));
-          var end=raw.lastIndexOf('];');
+        } else if(raw.indexOf('competitorDB')!==-1 || raw.indexOf('var competitorDB')!==-1){
+          var marker = raw.indexOf('var competitorDB')!==-1 ? 'var competitorDB' : 'competitorDB';
+          var start=raw.indexOf('[',raw.indexOf(marker));
+          // 找到对应的结束 ]，用括号计数而非 lastIndexOf
+          var depth=0, end=-1;
+          for(var ci=start;ci<raw.length;ci++){
+            if(raw[ci]==='[') depth++;
+            else if(raw[ci]===']') depth--;
+            if(depth===0){end=ci;break;}
+          }
+          if(end===-1) throw new Error('无法解析 competitorDB 数组');
           var arr=parseJsArray(raw.slice(start,end+1));
           state.competitor=arr;
           switchTab('competitor');
@@ -624,10 +632,10 @@ function parseJsArray(str){
   } catch(e){
     // fallback: JSON 模式
     var json = str
-      .replace(/\/\/.*/g,'')                        // 移除行注释
+      .replace(/\/\/.*$/gm,'')                      // 移除行注释
       .replace(/,(\s*[\]}])/g,'$1')                 // 移除尾逗号
-      .replace(/(\w+):/g,'"$1":')                   // 属性名加引号
-      .replace(/"(\w+)":/g,'"$1":');                // 修正多余引号
+      // 只替换行首/逗号后的属性名，不破坏字符串内的冒号
+      .replace(/([{,]\s*)(\w+):/g,'$1"$2":');      // 属性名加引号
     return JSON.parse(json);
   }
 }
