@@ -702,7 +702,7 @@ select:focus, input:focus {
 }
 
 .bom-left-icon { font-size: 1rem; }
-.bom-left-title { font-size: 0.82rem; font-weight: 800; color: var(--text-primary); letter-spacing: 0.01em; }
+.bom-left-title { font-size: 0.92rem; font-weight: 800; color: var(--text-primary); letter-spacing: 0.01em; }
 
 .bom-left-inner {
   flex: 1;
@@ -745,7 +745,7 @@ select:focus, input:focus {
   flex-shrink: 0;
 }
 .bom-group-label {
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -766,7 +766,7 @@ select:focus, input:focus {
   gap: 0.2rem;
 }
 .bom-field-label {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-secondary);
   display: flex;
@@ -777,22 +777,22 @@ select:focus, input:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: var(--brand-red);
   color: #fff;
   border-radius: 50%;
-  font-size: 0.5rem;
+  font-size: 0.58rem;
   font-weight: 900;
   flex-shrink: 0;
 }
 
 .bom-select {
   width: 100%;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   border: 1.5px solid var(--border);
   border-radius: 6px;
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   color: var(--text-primary);
   background: var(--bg-panel);
   appearance: none;
@@ -1644,6 +1644,21 @@ select:focus, input:focus {
   }
   .bom-left-title {
     font-size: 0.7rem;
+  }
+  .bom-group-label {
+    font-size: 0.58rem;
+  }
+  .bom-field-label {
+    font-size: 0.62rem;
+  }
+  .bom-step-num {
+    width: 14px;
+    height: 14px;
+    font-size: 0.5rem;
+  }
+  .bom-select {
+    font-size: 0.68rem;
+    padding: 0.35rem 0.6rem;
   }
   .bom-left-inner {
     flex-direction: column;
