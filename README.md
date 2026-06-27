@@ -101,47 +101,101 @@
 
 ### 方式二：直接编辑 JS 文件
 
-所有数据文件都是标准的 `window.XXX_DATA` 全局变量格式，直接用文本编辑器修改即可。改完后刷新 `index.html` 自动加载（兼容 `file://` 本地打开）。
+所有数据文件通过 `<script>` 标签以全局变量形式加载，直接用文本编辑器修改后刷新 `index.html` 即可生效（兼容 `file://` 本地打开）。
 
-**配单数据** (`js/data/peidan.js`)：
+各文件的数据格式如下：
+
+<details>
+<summary><b>配单数据</b> <code>js/data/peidan.js</code></summary>
+
 ```js
 window.PEIDAN_DATA = {
-  "modelList": [
+  modelList: [
     {
-      "productCategory": "ID800 工业读码器",
-      "productSeries": "ID800",
-      "productModel": "MV-ID803M-U(基线)",
-      "standardAccessories": [
-        { "category": "大类", "name": "U 口线缆", "code": "101523961", "detail": "..." }
+      productCategory: "ID800 工业读码器",
+      productSeries: "ID800",
+      productModel: "MV-ID803M-U(基线)",
+      standardAccessories: [
+        { category: "大类", name: "U 口线缆", code: "101523961", detail: "10P10C转OPEN+USB-AM,2m" }
       ],
-      "optionalAccessories": [
-        { "category": "线缆", "name": "串口线缆", "code": "101523962", "detail": "..." }
+      optionalAccessories: [
+        { category: "线缆", name: "串口线缆", code: "101523962", detail: "10P10C转OPEN+DB9F,1.5m" },
+        { category: "电源", name: "电源适配器", code: "310100899", detail: "12V2A,AC100-240V" }
       ]
     }
   ]
 };
 ```
 
-**竞品数据** (`js/data/competitor.js`)：
+- `standardAccessories`：标配，自动包含在配单中
+- `optionalAccessories`：选配，用户手动勾选
+- `category` 决定选配页的分组显示（支持 16 类：线缆、网线、电源线、电源、安装、安装板、镜头、测试镜头、镜头罩、光源、微码光源、爆闪光源、灯板、外置配件、大类、其他）
+
+</details>
+
+<details>
+<summary><b>竞品数据</b> <code>js/data/competitor.js</code></summary>
+
 ```js
 var competitorDB = [
-  { brand: "Cognex", model: "DM70 / DM80", competitorDesc: "...", hikModel: "ID2013EMI", advantageDesc: "..." }
+  {
+    brand: "Cognex",
+    model: "DM70 / DM80",
+    competitorDesc: "DM70:0.36/1.2MP 算法分为S/QL/Q；DM80:1.6MP液态对焦",
+    hikModel: "ID2013EMI",
+    advantageDesc: "超高性价比，IO接口更丰富，算法性能无差别对标Q系列"
+  }
 ];
 ```
 
-**对照表** (`js/data/mapping.js`)：
+</details>
+
+<details>
+<summary><b>对照表</b> <code>js/data/mapping.js</code></summary>
+
 ```js
 window.MAPPING_DATA = [
-  { cat: 'ID803M系列', seq: 1, baseName: '基线型号', baseCode: '物料代码', distName: '经销型号', distCode: '物料代码' }
+  { cat: "ID803M系列", seq: 1, baseName: "MV-ID803M-03S", baseCode: "101523961", distName: "MV-ID803M-03S(经销)", distCode: "101523970" }
 ];
 ```
 
-**选型产品库** (`js/data/product_db.js`)：
+- `cat` 相同的记录自动分组为可折叠系列
+- 无对应经销型号的字段留空 `""`
+
+</details>
+
+<details>
+<summary><b>选型产品库</b> <code>js/data/product_db.js</code></summary>
+
 ```js
 const PRODUCT_DB = [
-  { model: "ID803M-03M", series: "ID800", resolution: { w: 640, h: 480 }, pixelSize: 3.7, focal: 3.1, interface: "USB2.0、RS232、RJ45", protection: "IP54", workingDist: { min: 120, max: 120 } }
+  {
+    model: "ID803M-03M",
+    series: "ID800",
+    resolution: { w: 640, h: 480 },
+    pixelSize: 3.7,
+    focal: 3.1,
+    interface: "USB2.0、RS232、RJ45",
+    protection: "IP54",
+    workingDist: { min: 120, max: 120 }
+  },
+  {
+    model: "ID3040RM-00C-12",
+    series: "ID3000",
+    resolution: { w: 2688, h: 1536 },
+    pixelSize: 2,
+    // C-Mount 型号无 focal，不参与 PPM/视野计算
+    interface: "Fast Ethernet、RS232",
+    protection: "IP67",
+    workingDist: { min: 100, max: 2000 }
+  }
 ];
 ```
+
+- `focal` / `pixelSize`：C-Mount 型号可省略，仅按分辨率和工作距离打分
+- `workingDist`：工作距离范围（mm）
+
+</details>
 
 ---
 
