@@ -1,58 +1,118 @@
 # HIKROBOT 读码器选型工具 V3.0
 
-海康机器人读码器（Code Reader）智能选型 / 竞品对标 / 配单生成 / 基线-经销对照查询工具，纯前端实现，无需服务器，双击 `index.html` 即可在浏览器中打开使用。
+海康机器人读码器（Code Reader）智能选型 / 竞品对标 / 配单生成 / 基线-经销对照查询工具。
+
+纯前端实现，无需服务器，双击 `index.html` 即可在浏览器中打开使用。
 
 ---
 
 ## 目录结构
 
 ```
-hik/
-├── index.html              # 主页面，包含四个功能页签
-├── db_editor.html           # 数据库编辑器（可视化编辑全部数据文件）
-├── style.css                # 全局样式（含 PC 端 / 移动端响应式）
-├── code-type-desc.png        # 码制类型说明图（选型页用，缺失时自动用占位 SVG 兜底）
+├── index.html                  # 主页面，包含四个功能页签
+├── db_editor.html              # 数据库编辑器（可视化编辑全部数据文件）
+├── code-type-desc.png          # 码制类型说明图
+├── css/
+│   └── style.css               # 全局样式（PC + 移动端响应式）
 └── js/
-    ├── app.js                 # 智能选型模块：导航切换 + PPM/视野计算逻辑
-    ├── bom.js                  # 配单表模块：型号树、选配件弹窗、自动生成配单、导出 CSV
-    ├── mapping_module.js        # 基线-经销对照表模块：搜索/筛选/分组折叠
+    ├── app.js                  # 智能选型：导航切换 + PPM/视野计算
+    ├── bom.js                  # 配单表：型号树、选配件弹窗、自动生成配单、导出 CSV
+    ├── mapping_module.js       # 对照表：搜索、筛选、分组折叠
     └── data/
-        ├── product_db.js         # 读码器产品数据库（PRODUCT_DB，供 app.js 选型用）
-        ├── competitor.js          # 竞品对标数据：39 条品牌对标记录
-        ├── peidan.js             # 配单数据源：型号 + 标配/选配配件清单（按 productModel 维度）
-        └── mapping.js            # 对照表数据源：424 条基线↔经销型号映射（41 个系列）
+        ├── product_db.js       # 选型产品数据库（PRODUCT_DB）
+        ├── competitor.js       # 竞品对标数据（39 条）
+        ├── peidan.js           # 配单数据（型号 + 标配/选配配件）
+        └── mapping.js          # 对照表数据（424 条，41 个系列）
 ```
 
-> 也提供了一个独立的**配单数据编辑器** `peidan_editor.html`（导出/导入 `peidan.js` 格式），用于后续在不写代码的情况下更新配单数据。
-
 ---
 
-## 四个功能页签
+## 功能说明
 
-| 页签 | 功能 |
+### ⚡ 智能选型
+
+输入码制类型（QR / Code39）、模块尺寸、工作距离、视野宽高，自动计算 PPM（Pixels Per Module），从产品库中推荐最佳型号。
+
+- 2D 码 PPM 4~8 为优秀，1D 码 PPM 1.4~2 为优秀
+- 综合评分：分辨率 + PPM + 工作距离 + 视野
+- 支持查看所有满足条件的型号清单（可按系列筛选）
+- SVG 示意图实时展示工作距离、视野、焦距
+
+### 🔬 竞品对标
+
+39 条友商型号与海康对应型号的对标信息，覆盖 7 个品牌：
+
+| 品牌 | 对标型号 |
 |---|---|
-| ⚡ 智能选型 | 输入码制类型、模块尺寸、工作距离、视野宽高，自动计算 PPM 并从 `PRODUCT_DB` 中推荐最佳型号，支持查看所有满足条件的型号清单（含系列筛选） |
-| 🔬 竞品对标 | 39 条友商（Cognex/Keyence/Datalogic/思谋/华睿/视界/新大陆）型号与海康对应型号的对标信息，支持关键词搜索（自动忽略 `MV-` 前缀及大小写）、品牌筛选、卡片展开/收起 |
-| 📋 配单表 | 选择产品大类 → 系列 → 具体型号后自动生成配单（含全部标配），选配配件按大类分组、点击弹窗勾选；支持导出 CSV |
-| 🔄 对照表 | 424 条基线型号↔经销型号的物料代码对照，按系列分组折叠显示，支持型号名称/物料代码混合搜索 |
+| Cognex | DM70/80、DM150/260、DM280/290、DM370、DM470、DM380/390 |
+| Keyence | SR-700/750、SR-1000、SR-2000、SR-X300/X100/X80、SR-5000 |
+| Datalogic | Matrix 100/120/220/320、AV500/900 |
+| 思谋 | VS600、VS800P/900、VS1000P、VS2000P |
+| 华睿 | R3000、R4000、R5000、R7000 |
+| 视界 | ICW 61/62/64E/72/74EP/76P |
+| 新大陆 | FM415、NVF200/230/800、Soldier100/160/180/300 |
+
+支持关键词搜索（自动忽略 `MV-` 前缀及大小写）、品牌筛选、卡片展开/收起。
+
+### 📋 配单表
+
+三级联动选型：**产品大类 → 产品系列 → 具体型号**
+
+- 选定型号后自动生成 BOM（主机 + 全部标配）
+- 选配配件按类别分组（线缆、电源、安装、光源等 16 类），点击弹窗勾选
+- 支持导出 CSV、重置、删除单行
+- 数据持久化到 localStorage
+
+### 🔄 对照表
+
+424 条基线型号 ↔ 经销型号的物料代码对照，按系列分组折叠显示。
+
+- 基线 = 直销物料，经销 = 渠道物料
+- 支持按型号名称、物料代码混合搜索
+- 搜索时自动展开有结果的系列
 
 ---
 
-## 数据更新指南
+## 数据库编辑器
 
-### 1. 更新配单数据（`js/data/peidan.js`）
+`db_editor.html` 是一个独立的可视化编辑工具，支持编辑全部四种数据：
 
-格式：
+| 标签 | 编辑内容 | 导出格式 |
+|---|---|---|
+| 📋 配单数据 | 产品大类/系列/型号、标配/选配配件 | `peidan.js` |
+| 🔄 对照表 | 系列分类、基线/经销型号及代码 | `mapping.js` |
+| 🔬 竞品对标 | 品牌、型号、友商特点、海康优势 | `competitor_data.js` |
+| ⚡ 选型产品库 | 分辨率、焦距、像素尺寸、工作距离 | `product_db.js` |
 
+功能：导入 JS/JSON 文件、导出标准格式、新建/复制/删除条目、搜索筛选、Ctrl+S 快捷保存。
+
+---
+
+## 数据更新方式
+
+### 方式一：使用编辑器（推荐）
+
+1. 双击打开 `db_editor.html`
+2. 点击「导入」加载对应的 `.js` 文件
+3. 在界面中编辑数据
+4. 点击「导出」生成新的 `.js` 文件
+5. 替换 `js/data/` 下的对应文件
+6. 刷新 `index.html` 查看效果
+
+### 方式二：直接编辑 JS 文件
+
+所有数据文件都是标准的 `window.XXX_DATA` 全局变量格式，直接用文本编辑器修改即可。改完后刷新 `index.html` 自动加载（兼容 `file://` 本地打开）。
+
+**配单数据** (`js/data/peidan.js`)：
 ```js
 window.PEIDAN_DATA = {
   "modelList": [
     {
       "productCategory": "ID800 工业读码器",
       "productSeries": "ID800",
-      "productModel": "MV-ID803M-03S-WBN/WBP-SR-U(线)",
+      "productModel": "MV-ID803M-U(基线)",
       "standardAccessories": [
-        { "name": "U 口线缆", "code": "101523961", "detail": "..." }
+        { "category": "大类", "name": "U 口线缆", "code": "101523961", "detail": "..." }
       ],
       "optionalAccessories": [
         { "category": "线缆", "name": "串口线缆", "code": "101523962", "detail": "..." }
@@ -60,61 +120,40 @@ window.PEIDAN_DATA = {
     }
   ]
 };
-if (window.BOM && window.BOM.applyData) { window.BOM.applyData(window.PEIDAN_DATA); }
 ```
 
-- 每个 `productModel` 的标配 / 选配相互独立，互不影响其他型号
-- `optionalAccessories` 的 `category` 字段决定配单页左侧"选装配件"按哪些大类分组展示（如「线缆」「电源」「安装」，留空则归入「其他」）
-- **推荐用 `peidan_editor.html` 编辑后导出**，自动生成正确格式，避免手写 JSON 出错
-- 改完后直接刷新 `index.html`，配单表会自动加载新数据（无需服务器，纯 `<script>` 标签加载，兼容 `file://` 本地打开）
+**竞品数据** (`js/data/competitor.js`)：
+```js
+var competitorDB = [
+  { brand: "Cognex", model: "DM70 / DM80", competitorDesc: "...", hikModel: "ID2013EMI", advantageDesc: "..." }
+];
+```
 
-### 2. 更新对照表数据（`js/data/mapping.js`）
-
-格式：
-
+**对照表** (`js/data/mapping.js`)：
 ```js
 window.MAPPING_DATA = [
-  { cat: '系列名', seq: 1, baseName: '基线型号', baseCode: '物料代码', distName: '经销型号', distCode: '物料代码' },
-  ...
+  { cat: 'ID803M系列', seq: 1, baseName: '基线型号', baseCode: '物料代码', distName: '经销型号', distCode: '物料代码' }
 ];
-if (window.MAPPING && window.MAPPING.applyData) { window.MAPPING.applyData(window.MAPPING_DATA); }
 ```
 
-- `cat` 相同的记录会被自动分组为一个可折叠的系列
-- 没有对应经销型号/代码的字段留空字符串 `''` 即可，页面会显示 `—`
-
-### 3. 更新竞品数据（`js/competitor.js`）
-
-直接编辑文件顶部的 `competitorDB` 数组，每条记录格式：
-
+**选型产品库** (`js/data/product_db.js`)：
 ```js
-{ brand: "Cognex", model: "DM70 / DM80", competitorDesc: "...", hikModel: "ID2013EMI", advantageDesc: "..." }
+const PRODUCT_DB = [
+  { model: "ID803M-03M", series: "ID800", resolution: { w: 640, h: 480 }, pixelSize: 3.7, focal: 3.1, interface: "USB2.0、RS232、RJ45", protection: "IP54", workingDist: { min: 120, max: 120 } }
+];
 ```
 
-### 4. 更新选型产品库（`js/product_db.js`）
-
-每个型号需包含 `model`、`series`、`resolution {w,h}`、`workingDist {min,max}`、`interface`、`protection`，C-Mount 型号无 `focal`/`pixelSize` 字段（不参与 PPM/视野计算，仅按分辨率和工作距离打分）。
-
 ---
 
-## 技术实现要点
+## 技术特点
 
-- **纯前端、零依赖**：不需要 Node / 构建工具 / 服务器，所有数据通过 `<script>` 标签以 `window.XXX_DATA` 全局变量形式注入，规避了 `file://` 协议下 `fetch()` 被浏览器拦截的限制
-- **响应式适配**：`style.css` 内置 `@media (max-width: 768px)` 完整移动端布局，桌面端为左右分栏，移动端改为底部 Tab 栏 + 整页统一滚动（避免内层嵌套滚动导致的触摸冲突）
-- **配单页选配交互**：选配配件按 `category` 分组为可点击卡片，点击后弹出 Modal 勾选，避免配件项过多时挤占界面空间
-- **对照表/竞品搜索**：统一做了 `MV-` 前缀剥离 + 大小写归一化，保证 `MV-ID3013` 与 `id3013` 搜索结果一致
-- **样式一致性**：所有页面统一 12px 外边距 + 10px 圆角卡片设计，搜索框/筛选框统一 38px 高度
-
----
-
-## 已知限制
-
-- `PRODUCT_DB`、`competitorDB` 目前为静态内置数据，更新需直接编辑对应 `.js` 文件（无可视化编辑器）
-- 选型计算结果仅供参考，建议实测验证（页面右上角已标注）
-- 对照表数据从原始 `.xls`（BIFF8 二进制格式）解析而来，如后续仍用此格式导出，需用专门脚本重新提取 SST 字符串表（含 CONTINUE 记录跨段处理），不能直接用标准 Excel 库读取
+- **纯前端、零依赖**：不需要 Node / 构建工具 / 服务器，所有数据通过 `<script>` 标签注入
+- **响应式适配**：桌面端左右分栏，移动端底部 Tab 栏 + 统一滚动
+- **搜索归一化**：统一 `MV-` 前缀剥离 + 大小写不敏感
+- **样式一致**：12px 外边距 + 10px 圆角卡片 + 38px 统一控件高度
 
 ---
 
 ## 版本
 
-V3.0 · 最后更新 2026-06-21
+V3.0 · 最后更新 2026-06-27
