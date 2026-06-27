@@ -148,7 +148,14 @@ var competitorDB = [
 
 ```js
 window.MAPPING_DATA = [
-  { cat: "ID803M系列", seq: 1, baseName: "MV-ID803M-03S", baseCode: "101523961", distName: "MV-ID803M-03S(经销)", distCode: "101523970" }
+  {
+    cat: "ID803M系列",
+    seq: 1,
+    baseName: "MV-ID803M-03S",
+    baseCode: "101523961",
+    distName: "MV-ID803M-03S(经销)",
+    distCode: "101523970"
+  }
 ];
 ```
 
