@@ -6,6 +6,132 @@
 (function() {
   'use strict';
 
+  // ═══════════ THEME & LANGUAGE ═══════════
+  function swapThemeImages(isDark) {
+    document.querySelectorAll('img[data-dark-src]').forEach(function(img) {
+      var lightSrc = img.getAttribute('src').replace('-dark', '');
+      var darkSrc = img.getAttribute('data-dark-src');
+      img.setAttribute('src', isDark ? darkSrc : lightSrc);
+    });
+  }
+
+  function toggleTheme() {
+    document.documentElement.classList.toggle('dark');
+    var isDark = document.documentElement.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    var icon = isDark ? '☀️' : '🌙';
+    var btn = document.getElementById('themeBtn');
+    if (btn) btn.textContent = icon;
+    var btnM = document.getElementById('themeBtnMobile');
+    if (btnM) btnM.textContent = icon;
+    swapThemeImages(isDark);
+  }
+
+  function initTheme() {
+    var saved = localStorage.getItem('theme');
+    var isDark = saved === 'dark';
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      var icon = '☀️';
+      var btn = document.getElementById('themeBtn');
+      if (btn) btn.textContent = icon;
+      var btnM = document.getElementById('themeBtnMobile');
+      if (btnM) btnM.textContent = icon;
+    }
+    swapThemeImages(isDark);
+  }
+
+  var currentLang = localStorage.getItem('lang') || 'zh';
+  var i18n = {
+    zh: {
+      title: 'HIKROBOT · 读码器选型工具',
+      status: '计算结果仅供参考，建议实测验证',
+      tab1: '智能选型', tab2: '竞品对标', tab3: '配单表', tab4: '对照表',
+      card1: '📋 核心参数配置', card2: '📐 方案示意图', card3: '🏆 最佳推荐型号',
+      sec1: '🔖 码制 & 模块尺寸', sec2: '📐 距离 & 视野参数',
+      codeType: '码制类型 *', moduleSize: '模块尺寸 *',
+      workDist: '工作距离 *', fovW: '期望视野宽度 *', fovH: '期望视野高度 *',
+      placeholder: '请输入',
+      runBtn: '⚡ 开始智能选型',
+      showModal: '📋 查看所有满足条件的型号清单',
+      emptyState: '等待选型结果...',
+      langBtn: 'EN',
+      cpSearch: '搜索友商型号 / 海康型号，如 SR-1000、ID3013PM…',
+      cpBrand: '全部品牌', cpReset: '重置', cpExpand: '📂 展开所有',
+      cpStats: '共 0 条对标记录',
+      mpSearch: '搜索基线/经销 型号名称或物料代码，如 MV-ID803、IDA02X…',
+      mpCat: '全部系列', mpReset: '重置', mpCollapse: '📁 全部收起', mpExpand: '📂 全部展开',
+      bomCat: '-- 请选择产品大类 --', bomSer: '-- 请先选择大类 --', bomModel: '-- 请先选择系列 --',
+      bomAdd: '⚡ 生成配单', bomClear: '重置', bomExport: '⬇ 导出 CSV'
+    },
+    en: {
+      title: 'HIKROBOT · Code Reader Selector',
+      status: 'Results are for reference only, please verify with actual tests',
+      tab1: 'Selection', tab2: 'Competitor', tab3: 'BOM', tab4: 'Mapping',
+      card1: '📋 Core Parameters', card2: '📐 Schematic', card3: '🏆 Best Match',
+      sec1: '🔖 Code Type & Module Size', sec2: '📐 Distance & FOV',
+      codeType: 'Code Type *', moduleSize: 'Module Size *',
+      workDist: 'Working Distance *', fovW: 'FOV Width *', fovH: 'FOV Height *',
+      placeholder: 'Enter value',
+      runBtn: '⚡ Start Selection',
+      showModal: '📋 View All Matching Models',
+      emptyState: 'Waiting for selection...',
+      langBtn: '中',
+      cpSearch: 'Search competitor / HIKROBOT model, e.g. SR-1000, ID3013PM…',
+      cpBrand: 'All Brands', cpReset: 'Reset', cpExpand: '📂 Expand All',
+      cpStats: '0 records',
+      mpSearch: 'Search model name or material code, e.g. MV-ID803, IDA02X…',
+      mpCat: 'All Series', mpReset: 'Reset', mpCollapse: '📁 Collapse All', mpExpand: '📂 Expand All',
+      bomCat: '-- Select Category --', bomSer: '-- Select Category First --', bomModel: '-- Select Series First --',
+      bomAdd: '⚡ Generate BOM', bomClear: 'Reset', bomExport: '⬇ Export CSV'
+    }
+  };
+
+  function applyLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    var t = i18n[lang];
+    document.getElementById('langBtn').textContent = t.langBtn;
+    var langBtnM = document.getElementById('langBtnMobile');
+    if (langBtnM) langBtnM.textContent = t.langBtn;
+    document.querySelector('.logo-area h1').innerHTML = 
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><rect x="2" y="2" width="9" height="9" rx="1" fill="#f76504"/><rect x="13" y="2" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="2" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="13" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.15)"/></svg> ' + t.title + ' <span class="badge">V3.0</span>';
+    document.querySelector('.status-badge').textContent = t.status;
+    var tabs = document.querySelectorAll('.nav-tab');
+    var tabTexts = [t.tab1, t.tab2, t.tab3, t.tab4];
+    tabs.forEach(function(tab, i) {
+      var icon = tab.querySelector('.nav-tab-icon');
+      if (icon && tabTexts[i]) tab.innerHTML = '<span class="nav-tab-icon">' + icon.textContent + '</span>' + tabTexts[i];
+    });
+    var headers = document.querySelectorAll('.card-header');
+    if (headers[0]) headers[0].textContent = t.card1;
+    if (headers[1]) headers[1].textContent = t.card2;
+    if (headers[2]) headers[2].textContent = t.card3;
+    var secTitles = document.querySelectorAll('.form-section-title');
+    if (secTitles[0]) secTitles[0].innerHTML = t.sec1;
+    if (secTitles[1]) secTitles[1].innerHTML = t.sec2;
+    var labels = document.querySelectorAll('.left-panel label');
+    if (labels[0]) labels[0].textContent = t.codeType;
+    if (labels[1]) labels[1].textContent = t.moduleSize;
+    if (labels[2]) labels[2].textContent = t.workDist;
+    if (labels[3]) labels[3].textContent = t.fovW;
+    if (labels[4]) labels[4].textContent = t.fovH;
+    document.querySelectorAll('.left-panel input[type="number"]').forEach(function(inp) {
+      inp.placeholder = t.placeholder;
+    });
+    document.getElementById('runBtn').textContent = t.runBtn;
+    document.getElementById('showModalBtn').textContent = t.showModal;
+    document.querySelector('.empty-state').textContent = t.emptyState;
+  }
+
+  function toggleLang() {
+    applyLang(currentLang === 'zh' ? 'en' : 'zh');
+  }
+
+  // Expose to global scope for onclick handlers
+  window.toggleTheme = toggleTheme;
+  window.toggleLang = toggleLang;
+
   // ─── 导航切换 ───
   function initNav() {
     var tabs = document.querySelectorAll('.nav-tab');
@@ -323,10 +449,16 @@
     console.log('✅ 智能选型模块初始化完成，共 ' + (typeof PRODUCT_DB !== 'undefined' ? PRODUCT_DB.length : 0) + ' 个型号');
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
+  function boot() {
+    initTheme();
+    applyLang(currentLang);
     init();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 
 })();

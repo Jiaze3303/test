@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>海康机器人 · 读码器选型工具</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -26,6 +26,10 @@
         <span class="badge">V3.0</span>
       </h1>
     </div>
+    <div class="titlebar-actions">
+      <button class="titlebar-btn" id="langBtnMobile" onclick="toggleLang()">中/EN</button>
+      <button class="titlebar-btn" id="themeBtnMobile" onclick="toggleTheme()">🌙</button>
+    </div>
     <div class="status-badge">计算结果仅供参考，建议实测验证</div>
   </div>
 
@@ -46,6 +50,10 @@
       <button class="nav-tab" data-page="page-mapping" role="tab">
         <span class="nav-tab-icon">🔄</span>对照表
       </button>
+      <div class="nav-footer">
+        <button class="nav-footer-btn" id="langBtn" onclick="toggleLang()">中/EN</button>
+        <button class="nav-footer-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+      </div>
     </nav>
 
     <!-- PAGE: 智能选型 -->
@@ -75,7 +83,7 @@
                 </div>
               </div>
               <div class="code-img-container">
-                <img src="code-type-desc.png" alt="码制类型与模块尺寸说明" class="code-type-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22120%22%3E%3Crect width=%22400%22 height=%22120%22 fill=%22%23fef3e8%22 rx=%2212%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23f76504%22 font-size=%2214%22%3E📖 码制示意：QR / Code39%3C/text%3E%3C/svg%3E';">
+                <img src="code-type-desc.png" data-dark-src="code-type-desc-dark.png" alt="码制类型与模块尺寸说明" class="code-type-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22120%22%3E%3Crect width=%22400%22 height=%22120%22 fill=%22%23fef3e8%22 rx=%2212%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23f76504%22 font-size=%2214%22%3E📖 码制示意：QR / Code39%3C/text%3E%3C/svg%3E';">
                 <div class="img-caption">💡 码制类型与模块尺寸说明</div>
               </div>
             </div>
@@ -117,8 +125,8 @@
             <div id="calcContent">
               <div class="schematic-wrap">
                 <svg id="schematicSvg" viewBox="0 0 580 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block; background:#F5F7FA; border-radius:8px;">
-                  <rect width="580" height="300" fill="#F5F7FA" rx="8"/>
-                  <rect x="380" y="95" width="140" height="112" fill="#FFE8D6" stroke="#f76504" stroke-width="2.2" rx="6"/>
+                  <rect class="svg-bg" width="580" height="300" fill="#F5F7FA" rx="8"/>
+                  <rect class="svg-fov-box" x="380" y="95" width="140" height="112" fill="#FFE8D6" stroke="#f76504" stroke-width="2.2" rx="6"/>
                   <line x1="380" y1="120" x2="410" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
                   <line x1="380" y1="150" x2="460" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
                   <line x1="380" y1="180" x2="500" y2="95"  stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
@@ -127,10 +135,10 @@
                   <line x1="440" y1="207" x2="520" y2="190" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
                   <line x1="380" y1="80" x2="520" y2="80" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowLeftRed)" marker-end="url(#arrowRightRed)"/>
                   <text x="450" y="70" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估宽度</text>
-                  <text id="lblFovW" x="450" y="58" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <text class="svg-label-value" id="lblFovW" x="450" y="58" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <line x1="366" y1="95" x2="366" y2="207" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowUpRed)" marker-end="url(#arrowDownRed)"/>
                   <text x="325" y="156" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估高度</text>
-                  <text id="lblFovH" x="325" y="169" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <text class="svg-label-value" id="lblFovH" x="325" y="169" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <rect x="42" y="122" width="56" height="56" fill="#1A2B4A" rx="8"/>
                   <rect x="50" y="130" width="40" height="40" fill="#243556" rx="6"/>
                   <circle cx="70" cy="150" r="14" fill="#0A1628" stroke="#f76504" stroke-width="2"/>
@@ -142,9 +150,9 @@
                   <line x1="70" y1="150" x2="380" y2="207" stroke="#f76504" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
                   <line x1="70" y1="265" x2="380" y2="265" stroke="#4A5A6A" stroke-width="1.2" marker-start="url(#arrowLeftGray)" marker-end="url(#arrowRightGray)"/>
                   <text x="225" y="282" fill="#4A5A6A" font-size="10" font-family="sans-serif" text-anchor="middle">工作距离</text>
-                  <text id="lblWd" x="225" y="260" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <text class="svg-label-value" id="lblWd" x="225" y="260" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <text x="155" y="148" fill="#8A9BAC" font-size="9.5" font-family="sans-serif" text-anchor="middle">焦距</text>
-                  <text id="lblFocal" x="155" y="162" fill="#1A2332" font-size="10.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
+                  <text class="svg-label-value" id="lblFocal" x="155" y="162" fill="#1A2332" font-size="10.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <defs>
                     <marker id="arrowUpRed"    markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto"><path d="M3,0 L0,6 L6,6 Z" fill="#f76504"/></marker>
                     <marker id="arrowDownRed"  markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><path d="M0,0 L6,0 L3,6 Z" fill="#f76504"/></marker>
@@ -411,7 +419,7 @@
 <script src="js/data/product_db.js"></script>
 
 <!-- 2. 主应用 -->
-<script src="js/app.js"></script>
+<script src="js/app.js?v=3"></script>
 
 <!-- 3. 配单表 -->
 <script src="js/bom.js"></script>
