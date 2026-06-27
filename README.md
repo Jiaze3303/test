@@ -105,8 +105,7 @@
 
 各文件的数据格式如下：
 
-<details>
-<summary><b>配单数据</b> <code>js/data/peidan.js</code></summary>
+**配单数据** `js/data/peidan.js`
 
 ```js
 window.PEIDAN_DATA = {
@@ -129,12 +128,9 @@ window.PEIDAN_DATA = {
 
 - `standardAccessories`：标配，自动包含在配单中
 - `optionalAccessories`：选配，用户手动勾选
-- `category` 决定选配页的分组显示（支持 16 类：线缆、网线、电源线、电源、安装、安装板、镜头、测试镜头、镜头罩、光源、微码光源、爆闪光源、灯板、外置配件、大类、其他）
+- `category` 决定选配页的分组显示，支持 16 类：线缆、网线、电源线、电源、安装、安装板、镜头、测试镜头、镜头罩、光源、微码光源、爆闪光源、灯板、外置配件、大类、其他
 
-</details>
-
-<details>
-<summary><b>竞品数据</b> <code>js/data/competitor.js</code></summary>
+**竞品数据** `js/data/competitor.js`
 
 ```js
 var competitorDB = [
@@ -148,10 +144,7 @@ var competitorDB = [
 ];
 ```
 
-</details>
-
-<details>
-<summary><b>对照表</b> <code>js/data/mapping.js</code></summary>
+**对照表** `js/data/mapping.js`
 
 ```js
 window.MAPPING_DATA = [
@@ -162,10 +155,7 @@ window.MAPPING_DATA = [
 - `cat` 相同的记录自动分组为可折叠系列
 - 无对应经销型号的字段留空 `""`
 
-</details>
-
-<details>
-<summary><b>选型产品库</b> <code>js/data/product_db.js</code></summary>
+**选型产品库** `js/data/product_db.js`
 
 ```js
 const PRODUCT_DB = [
@@ -194,8 +184,6 @@ const PRODUCT_DB = [
 
 - `focal` / `pixelSize`：C-Mount 型号可省略，仅按分辨率和工作距离打分
 - `workingDist`：工作距离范围（mm）
-
-</details>
 
 ---
 
