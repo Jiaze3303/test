@@ -651,6 +651,24 @@
 
     initModal();
 
+    // 三次点击左上角 logo 跳转 db_editor.html
+    var _logoClickCount = 0;
+    var _logoClickTimer = null;
+    var logoArea = document.querySelector('.logo-area');
+    if (logoArea) {
+      logoArea.style.cursor = 'pointer';
+      logoArea.addEventListener('click', function() {
+        _logoClickCount++;
+        if (_logoClickTimer) clearTimeout(_logoClickTimer);
+        if (_logoClickCount >= 3) {
+          _logoClickCount = 0;
+          window.location.href = 'db_editor.html';
+          return;
+        }
+        _logoClickTimer = setTimeout(function() { _logoClickCount = 0; }, 600);
+      });
+    }
+
     console.log('✅ 智能选型模块初始化完成，共 ' + (typeof PRODUCT_DB !== 'undefined' ? PRODUCT_DB.length : 0) + ' 个型号');
   }
 
