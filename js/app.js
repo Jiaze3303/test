@@ -44,25 +44,115 @@
   var currentLang = localStorage.getItem('lang') || 'zh';
   var i18n = {
     zh: {
+      // Titlebar
       title: 'HIKROBOT · 读码器选型工具',
       status: '计算结果仅供参考，建议实测验证',
+      // Nav tabs
       tab1: '智能选型', tab2: '竞品对标', tab3: '配单表', tab4: '对照表',
+      // Selection page
       card1: '📋 核心参数配置', card2: '📐 方案示意图', card3: '🏆 最佳推荐型号',
       sec1: '🔖 码制 & 模块尺寸', sec2: '📐 距离 & 视野参数',
       codeType: '码制类型 *', moduleSize: '模块尺寸 *',
+      codeTypePh: '-- 请选择 --',
+      codeType2D: '二维码 (2D)', codeType1D: '一维码 (1D)',
       workDist: '工作距离 *', fovW: '期望视野宽度 *', fovH: '期望视野高度 *',
       placeholder: '请输入',
+      imgCaption: '💡 码制类型与模块尺寸说明',
       runBtn: '⚡ 开始智能选型',
       showModal: '📋 查看所有满足条件的型号清单',
       emptyState: '等待选型结果...',
-      langBtn: 'EN',
+      // SVG schematic
+      svgEstW: '预估宽度', svgEstH: '预估高度', svgWd: '工作距离', svgFocal: '焦距',
+      // Modal
+      modalTitle: '📌 满足过滤条件的推荐型号',
+      filterLabel: '🔍 按系列筛选', filterReset: '全选',
+      modalEmpty: '请先进行选型',
+      // Competitor page
       cpSearch: '搜索友商型号 / 海康型号，如 SR-1000、ID3013PM…',
-      cpBrand: '全部品牌', cpReset: '重置', cpExpand: '📂 展开所有',
-      cpStats: '共 0 条对标记录',
+      cpBrandLabel: '品牌筛选',
+      cpBrandAll: '全部品牌',
+      cpExpand: '📂 展开所有',
+      cpStats: '共 {n} 条对标记录',
+      cpStatsHint: '蓝色 = 友商核心特点 · 绿色 = 海康竞争优势',
+      cpEmpty: '✨ 点击「展开所有」浏览全部对标数据，或在搜索框输入关键词自动匹配',
+      // BOM page
+      bomConfig: '配单配置',
+      bomModelSel: '型号选择',
+      bomStep1: '产品大类', bomStep2: '产品系列', bomStep3: '具体型号',
+      bomCatPh: '-- 请选择产品大类 --', bomSerPh: '-- 请先选择大类 --', bomModelPh: '-- 请先选择系列 --',
+      bomAcc: '选装配件',
+      bomAccEmpty: '请先完成产品型号选择',
+      bomAdd: '⚡ 生成配单',
+      bomDetail: '配单明细',
+      bomLegendMain: '■ 主机', bomLegendStd: '■ 标配', bomLegendOpt: '■ 选配',
+      bomStatTotal: '总计', bomStatMain: '主机', bomStatAcc: '配件',
+      bomReset: '重置', bomExport: '⬇ 导出 CSV',
+      bomThIdx: '#', bomThType: '类型', bomThName: '物料名称', bomThDesc: '描述', bomThCode: '物料代码', bomThAction: '操作',
+      bomEmpty: '请选择型号，配单将自动生成',
+      bomCount: '共 {n} 行',
+      bomFooterHint: '💡 蓝色 = 主机 · 浅蓝 = 标配 · 浅橙 = 选配',
+      // Mapping page
       mpSearch: '搜索基线/经销 型号名称或物料代码，如 MV-ID803、IDA02X…',
-      mpCat: '全部系列', mpReset: '重置', mpCollapse: '📁 全部收起', mpExpand: '📂 全部展开',
-      bomCat: '-- 请选择产品大类 --', bomSer: '-- 请先选择大类 --', bomModel: '-- 请先选择系列 --',
-      bomAdd: '⚡ 生成配单', bomClear: '重置', bomExport: '⬇ 导出 CSV'
+      mpCatLabel: '系列筛选', mpCatAll: '全部系列',
+      mpExpand: '📂 全部展开', mpCollapse: '📁 全部收起',
+      mpStats: '共 {n} 条记录',
+      mpStatsHint: '基线 = 直销物料 · 经销 = 渠道物料 · 每行一一对应',
+      mpThBaseModel: '基线型号', mpThBaseCode: '基线代码',
+      mpThDistModel: '经销型号', mpThDistCode: '经销代码',
+      mpLoading: '正在加载对照表数据…',
+      mpCount: '共 {n} 条',
+      mpFooterHint: '💡 支持搜索基线和经销的型号名称及物料代码',
+      mpNoMatch: '😔 未找到匹配记录，请调整搜索条件',
+      mpRecords: '{n} 条',
+      // Acc modal
+      accTitle: '选装配件',
+      accHint: '点击配件行即可勾选/取消',
+      accDone: '完成',
+      // BOM dynamic
+      bomReadHost: '读码器主机',
+      bomNoOptAcc: '✅ 无选装配件，标配 {n} 项已自动包含',
+      bomAccCount: '{n} 个配件',
+      bomSelected: '{n} 已选',
+      // Mapping dynamic
+      mpNoResult: '😔 未找到匹配记录，请调整搜索条件',
+
+      // PPM levels
+      ppmExcellent: '优秀', ppmGood: '良好', ppmPass: '合格',
+      ppmLow: '较低', ppmUnknown: '未知',
+
+      // Reasons
+      reasonResOk: '分辨率满足', reasonResNear: '分辨率接近', reasonResLow: '分辨率偏低',
+      reasonDistOk: '距离适配', reasonDistFail: '距离不适配',
+      reasonFovOk: '视野满足', reasonFovFail: '视野不足',
+      reasonCMount: 'C-Mount',
+
+      // Alerts
+      alertFillAll: '请完整填写所有必填参数（码制类型、模块尺寸、工作距离、视野宽度、视野高度），且数值必须大于0',
+      alertNoDB: '产品数据库未加载，请确保 product_db.js 已引入',
+
+      // Result display
+      resultEstFOV: '📐 预估视野 {w}×{h}mm',
+      resultPPM: '📊 真实 PPM',
+      resultDist: '📏 工作距离 {min}-{max}mm',
+      resultNoMatch: '⚠️ 没有找到同时满足所有条件的型号<br>请调整参数后重试',
+      resultNoMatchShort: '⚠️ 当前勾选的系列中无匹配型号，请勾选其他系列',
+      resultModalEmpty: '暂无满足条件的型号，请调整参数后重新选型',
+      resultWaitParam: '等待参数输入...',
+      resultFovStatus: '📐 预估视野 {w}×{h}mm',
+
+      // Competitor dynamic
+      cpNoMatch: '未找到匹配记录',
+      cpNoMatchHint: '尝试其他关键词，支持友商型号 / 海康型号混合搜索',
+      cpFeatLabel: '友商特点',
+      cpAdvLabel: '我方优势',
+      cpRecLabel: '推荐型号',
+      cpCollapse: '📁 折叠所有',
+
+      // BOM defaults
+      bomUncategorized: '未分类',
+      bomUnknownModel: '未知型号',
+      bomOther: '其他',
+      langBtn: 'EN'
     },
     en: {
       title: 'HIKROBOT · Code Reader Selector',
@@ -71,57 +161,156 @@
       card1: '📋 Core Parameters', card2: '📐 Schematic', card3: '🏆 Best Match',
       sec1: '🔖 Code Type & Module Size', sec2: '📐 Distance & FOV',
       codeType: 'Code Type *', moduleSize: 'Module Size *',
+      codeTypePh: '-- Select --',
+      codeType2D: 'QR Code (2D)', codeType1D: 'Barcode (1D)',
       workDist: 'Working Distance *', fovW: 'FOV Width *', fovH: 'FOV Height *',
       placeholder: 'Enter value',
+      imgCaption: '💡 Code Type & Module Size Guide',
       runBtn: '⚡ Start Selection',
       showModal: '📋 View All Matching Models',
       emptyState: 'Waiting for selection...',
-      langBtn: '中',
+      svgEstW: 'Est. Width', svgEstH: 'Est. Height', svgWd: 'Work Dist.', svgFocal: 'Focal',
+      modalTitle: '📌 Matching Models',
+      filterLabel: '🔍 Filter by Series', filterReset: 'Select All',
+      modalEmpty: 'Run selection first',
       cpSearch: 'Search competitor / HIKROBOT model, e.g. SR-1000, ID3013PM…',
-      cpBrand: 'All Brands', cpReset: 'Reset', cpExpand: '📂 Expand All',
-      cpStats: '0 records',
+      cpBrandLabel: 'Brand',
+      cpBrandAll: 'All Brands',
+      cpExpand: '📂 Expand All',
+      cpStats: '{n} records',
+      cpStatsHint: 'Blue = Competitor Features · Green = HIKROBOT Advantages',
+      cpEmpty: '✨ Click "Expand All" to browse, or type keywords to search',
+      bomConfig: 'BOM Config',
+      bomModelSel: 'Model Selection',
+      bomStep1: 'Category', bomStep2: 'Series', bomStep3: 'Model',
+      bomCatPh: '-- Select Category --', bomSerPh: '-- Select Category First --', bomModelPh: '-- Select Series First --',
+      bomAcc: 'Optional Accessories',
+      bomAccEmpty: 'Select a model first',
+      bomAdd: '⚡ Generate BOM',
+      bomDetail: 'BOM Details',
+      bomLegendMain: '■ Main Unit', bomLegendStd: '■ Standard', bomLegendOpt: '■ Optional',
+      bomStatTotal: 'Total', bomStatMain: 'Main', bomStatAcc: 'Accessories',
+      bomReset: 'Reset', bomExport: '⬇ Export CSV',
+      bomThIdx: '#', bomThType: 'Type', bomThName: 'Part Name', bomThDesc: 'Description', bomThCode: 'Part Code', bomThAction: 'Action',
+      bomEmpty: 'Select a model to auto-generate BOM',
+      bomCount: '{n} rows',
+      bomFooterHint: '💡 Blue = Main · Light Blue = Standard · Light Orange = Optional',
       mpSearch: 'Search model name or material code, e.g. MV-ID803, IDA02X…',
-      mpCat: 'All Series', mpReset: 'Reset', mpCollapse: '📁 Collapse All', mpExpand: '📂 Expand All',
-      bomCat: '-- Select Category --', bomSer: '-- Select Category First --', bomModel: '-- Select Series First --',
-      bomAdd: '⚡ Generate BOM', bomClear: 'Reset', bomExport: '⬇ Export CSV'
+      mpCatLabel: 'Series', mpCatAll: 'All Series',
+      mpExpand: '📂 Expand All', mpCollapse: '📁 Collapse All',
+      mpStats: '{n} records',
+      mpStatsHint: 'Baseline = Direct Sales · Distribution = Channel · One-to-one mapping',
+      mpThBaseModel: 'Baseline Model', mpThBaseCode: 'Baseline Code',
+      mpThDistModel: 'Dist. Model', mpThDistCode: 'Dist. Code',
+      mpLoading: 'Loading mapping data…',
+      mpCount: '{n} items',
+      mpFooterHint: '💡 Search baseline/distribution model names and material codes',
+      mpNoMatch: '😔 No matching records found',
+      mpRecords: '{n} items',
+      accTitle: 'Accessories',
+      accHint: 'Click an item to toggle selection',
+      accDone: 'Done',
+      bomReadHost: 'Code Reader',
+      bomNoOptAcc: '✅ No optional accessories, {n} standard items included',
+      bomAccCount: '{n} items',
+      bomSelected: '{n} selected',
+      mpNoResult: '😔 No matching records, adjust search criteria',
+
+      // PPM levels
+      ppmExcellent: 'Excellent', ppmGood: 'Good', ppmPass: 'Pass',
+      ppmLow: 'Low', ppmUnknown: 'Unknown',
+
+      // Reasons
+      reasonResOk: 'Resolution OK', reasonResNear: 'Resolution Near', reasonResLow: 'Resolution Low',
+      reasonDistOk: 'Distance OK', reasonDistFail: 'Distance Mismatch',
+      reasonFovOk: 'FOV OK', reasonFovFail: 'FOV Insufficient',
+      reasonCMount: 'C-Mount',
+
+      // Alerts
+      alertFillAll: 'Please fill all required fields (Code Type, Module Size, Working Distance, FOV Width, FOV Height) with values > 0',
+      alertNoDB: 'Product database not loaded. Ensure product_db.js is included.',
+
+      // Result display
+      resultEstFOV: '📐 Est. FOV {w}×{h}mm',
+      resultPPM: '📊 True PPM',
+      resultDist: '📏 Distance {min}-{max}mm',
+      resultNoMatch: '⚠️ No model matches all criteria.<br>Adjust parameters and retry.',
+      resultNoMatchShort: '⚠️ No matching models in selected series.',
+      resultModalEmpty: 'No matching models. Adjust parameters and re-run selection.',
+      resultWaitParam: 'Waiting for parameters...',
+      resultFovStatus: '📐 Est. FOV {w}×{h}mm',
+
+      // Competitor dynamic
+      cpNoMatch: 'No matching records',
+      cpNoMatchHint: 'Try other keywords. Supports competitor / HIKROBOT model search.',
+      cpFeatLabel: 'Competitor Features',
+      cpAdvLabel: 'Our Advantages',
+      cpRecLabel: 'Recommended Model',
+      cpCollapse: '📁 Collapse All',
+
+      // BOM defaults
+      bomUncategorized: 'Uncategorized',
+      bomUnknownModel: 'Unknown Model',
+      bomOther: 'Other',
+      langBtn: '中'
     }
+  };
+
+  // 获取翻译文本，支持 {n} 占位符
+  function t(key, n) {
+    var val = (i18n[currentLang] || i18n.zh)[key] || (i18n.zh[key] || key);
+    if (n !== undefined) val = val.replace('{n}', n);
+    return val;
+  }
+
+  // 暴露给 bom.js / mapping_module.js 使用
+  window._i18n = {
+    t: t,
+    getLang: function() { return currentLang; }
   };
 
   function applyLang(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    var t = i18n[lang];
-    document.getElementById('langBtn').textContent = t.langBtn;
-    var langBtnM = document.getElementById('langBtnMobile');
-    if (langBtnM) langBtnM.textContent = t.langBtn;
+
+    // 1. 处理所有带 data-i18n 属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      var val = t(key);
+      if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio') {
+        el.placeholder = val;
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = val;
+      } else {
+        el.textContent = val;
+      }
+    });
+
+    // 2. 处理 data-i18n-ph (placeholder)
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+      el.placeholder = t(el.getAttribute('data-i18n-ph'));
+    });
+
+    // 2b. 处理 data-i18n-alt (alt text)
+    document.querySelectorAll('[data-i18n-alt]').forEach(function(el) {
+      el.alt = t(el.getAttribute('data-i18n-alt'));
+    });
+
+    // 3. 处理 data-i18n-html (innerHTML)
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+      el.innerHTML = t(el.getAttribute('data-i18n-html'));
+    });
+
+    // 4. Logo 区域（包含 SVG）
     document.querySelector('.logo-area h1').innerHTML = 
-      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><rect x="2" y="2" width="9" height="9" rx="1" fill="#f76504"/><rect x="13" y="2" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="2" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="13" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.15)"/></svg> ' + t.title + ' <span class="badge">V3.0</span>';
-    document.querySelector('.status-badge').textContent = t.status;
-    var tabs = document.querySelectorAll('.nav-tab');
-    var tabTexts = [t.tab1, t.tab2, t.tab3, t.tab4];
-    tabs.forEach(function(tab, i) {
-      var icon = tab.querySelector('.nav-tab-icon');
-      if (icon && tabTexts[i]) tab.innerHTML = '<span class="nav-tab-icon">' + icon.textContent + '</span>' + tabTexts[i];
-    });
-    var headers = document.querySelectorAll('.card-header');
-    if (headers[0]) headers[0].textContent = t.card1;
-    if (headers[1]) headers[1].textContent = t.card2;
-    if (headers[2]) headers[2].textContent = t.card3;
-    var secTitles = document.querySelectorAll('.form-section-title');
-    if (secTitles[0]) secTitles[0].innerHTML = t.sec1;
-    if (secTitles[1]) secTitles[1].innerHTML = t.sec2;
-    var labels = document.querySelectorAll('.left-panel label');
-    if (labels[0]) labels[0].textContent = t.codeType;
-    if (labels[1]) labels[1].textContent = t.moduleSize;
-    if (labels[2]) labels[2].textContent = t.workDist;
-    if (labels[3]) labels[3].textContent = t.fovW;
-    if (labels[4]) labels[4].textContent = t.fovH;
-    document.querySelectorAll('.left-panel input[type="number"]').forEach(function(inp) {
-      inp.placeholder = t.placeholder;
-    });
-    document.getElementById('runBtn').textContent = t.runBtn;
-    document.getElementById('showModalBtn').textContent = t.showModal;
-    document.querySelector('.empty-state').textContent = t.emptyState;
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><rect x="2" y="2" width="9" height="9" rx="1" fill="#f76504"/><rect x="13" y="2" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="2" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.25)"/><rect x="13" y="13" width="9" height="9" rx="1" fill="rgba(255,255,255,0.15)"/></svg> ' + t('title') + ' <span class="badge">V3.0</span>';
+
+    // 5. 更新页面标题
+    document.title = t('title');
+
+    // 6. 通知 bom.js 和 mapping_module.js 重新渲染
+    if (window.BOM && window.BOM.rerender) window.BOM.rerender();
+    if (window.MAPPING && window.MAPPING.rerender) window.MAPPING.rerender();
   }
 
   function toggleLang() {
@@ -174,17 +363,17 @@
   function getPPMScoreAndLevel(ppm, codeType) {
     var is2D = isCodeType2D(codeType);
     if (is2D) {
-      if (ppm >= 4 && ppm <= 8)  return { score: 30, level: '优秀' };
-      if (ppm > 8 && ppm <= 12)  return { score: 25, level: '良好' };
-      if (ppm >= 12 || (ppm >= 3 && ppm < 4)) return { score: 15, level: '合格' };
-      if (ppm < 3) return { score: -15, level: '较低' };
-      return { score: 0, level: '未知' };
+      if (ppm >= 4 && ppm <= 8)  return { score: 30, level: t('ppmExcellent') };
+      if (ppm > 8 && ppm <= 12)  return { score: 25, level: t('ppmGood') };
+      if (ppm >= 12 || (ppm >= 3 && ppm < 4)) return { score: 15, level: t('ppmPass') };
+      if (ppm < 3) return { score: -15, level: t('ppmLow') };
+      return { score: 0, level: t('ppmUnknown') };
     } else {
-      if (ppm >= 1.4 && ppm <= 2) return { score: 30, level: '优秀' };
-      if (ppm >= 2 && ppm <= 3)   return { score: 25, level: '良好' };
-      if ((ppm >= 1 && ppm < 1.4) || ppm >= 3) return { score: 15, level: '合格' };
-      if (ppm < 1) return { score: -15, level: '较低' };
-      return { score: 0, level: '未知' };
+      if (ppm >= 1.4 && ppm <= 2) return { score: 30, level: t('ppmExcellent') };
+      if (ppm >= 2 && ppm <= 3)   return { score: 25, level: t('ppmGood') };
+      if ((ppm >= 1 && ppm < 1.4) || ppm >= 3) return { score: 15, level: t('ppmPass') };
+      if (ppm < 1) return { score: -15, level: t('ppmLow') };
+      return { score: 0, level: t('ppmUnknown') };
     }
   }
 
@@ -228,6 +417,15 @@
       return;
     }
 
+    // 添加 loading 状态
+    var runBtn = document.getElementById('runBtn');
+    runBtn.classList.add('loading');
+    runBtn.textContent = '';
+
+    // 使用 requestAnimationFrame 延迟执行，让 loading 动画先渲染
+    requestAnimationFrame(function() {
+      setTimeout(function() {
+
     var moduleMM = toMM(mSize, mUnit);
     var fovReqW_mm = toMM(fovW, fovWUnit);
     var fovReqH_mm = toMM(fovH, fovHUnit);
@@ -241,7 +439,7 @@
 
     // 检查 PRODUCT_DB 是否可用
     if (typeof PRODUCT_DB === 'undefined') {
-      alert('产品数据库未加载，请确保 product_db.js 已引入');
+      alert(t('alertNoDB'));
       return;
     }
 
@@ -262,13 +460,13 @@
       // 分辨率评分
       if (sensorWidthPx >= requiredPixelsW && sensorHeightPx >= requiredPixelsH) {
         score += 30;
-        reasons.push('分辨率满足');
+        reasons.push(t('reasonResOk'));
       } else if (sensorWidthPx >= requiredPixelsW * 0.8 && sensorHeightPx >= requiredPixelsH * 0.8) {
         score += 15;
-        reasons.push('分辨率接近');
+        reasons.push(t('reasonResNear'));
       } else {
         score -= 20;
-        reasons.push('分辨率偏低');
+        reasons.push(t('reasonResLow'));
       }
 
       // PPM 评分
@@ -277,26 +475,26 @@
         reasons.push('PPM' + ppmLevel + '(' + ppm.toFixed(2) + ')');
       } else {
         score += 5;
-        reasons.push('C-Mount');
+        reasons.push(t('reasonCMount'));
       }
 
       // 工作距离评分
       if (wdMM >= model.workingDist.min && wdMM <= model.workingDist.max) {
         score += 15;
-        reasons.push('距离适配');
+        reasons.push(t('reasonDistOk'));
       } else {
         score -= 5;
-        reasons.push('距离不适配');
+        reasons.push(t('reasonDistFail'));
       }
 
       // 视野评分
       if (model.focal && fovEst) {
         if (fovEst.width >= fovReqW_mm && fovEst.height >= fovReqH_mm) {
           score += 15;
-          reasons.push('视野满足');
+          reasons.push(t('reasonFovOk'));
         } else {
           score -= 20;
-          reasons.push('视野不足');
+          reasons.push(t('reasonFovFail'));
         }
       }
 
@@ -327,7 +525,7 @@
       var ppmLevelDisplay = best.ppmLevel ? ' (' + best.ppmLevel + ')' : '';
       document.getElementById('top1Content').innerHTML = 
         '<div class="result-main">' +
-          '<div class="result-card"><strong>首选型号</strong><span>' + best.model.model + '</span></div>' +
+          '<div class="result-card"><strong>' + t('showModal').replace('📋 ', '') + '</strong><span>' + best.model.model + '</span></div>' +
           '<div class="result-card"><strong>PPM</strong><span>' + ppmDisplay + ppmLevelDisplay + '</span></div>' +
         '</div>' +
         '<div class="model-preview">' +
@@ -340,15 +538,22 @@
     } else {
       updateSchematic(wdMM, null, null, null);
       document.getElementById('top1Content').innerHTML = 
-        '<div class="warning-badge">⚠️ 没有找到同时满足所有条件的型号<br>请调整参数后重试</div>';
+        '<div class="warning-badge">' + t('resultNoMatch') + '</div>';
     }
+
+    // 移除 loading 状态
+    runBtn.classList.remove('loading');
+    runBtn.textContent = t('runBtn');
+
+      }, 80); // setTimeout end
+    }); // requestAnimationFrame end
   }
 
   // ─── Modal 渲染 ───
   function renderModalWithSeriesFilter() {
     if (!cachedFilteredList || cachedFilteredList.length === 0) {
       document.getElementById('modalModelList').innerHTML = 
-        '<div class="empty-state">暂无满足条件的型号，请调整参数后重新选型</div>';
+        '<div class="empty-state">' + t('resultModalEmpty') + '</div>';
       return;
     }
 
@@ -360,7 +565,7 @@
 
     if (filteredBySeries.length === 0) {
       document.getElementById('modalModelList').innerHTML = 
-        '<div class="warning-badge">⚠️ 当前勾选的系列中无匹配型号，请勾选其他系列</div>';
+        '<div class="warning-badge">' + t('resultNoMatchShort') + '</div>';
       return;
     }
 
@@ -370,7 +575,7 @@
       var fovEst = item.fovEst;
       var ppmDisplay = item.ppm !== null ? item.ppm.toFixed(2) : '— (C-Mount)';
       var ppmLevelDisplay = item.ppmLevel ? ' (' + item.ppmLevel + ')' : '';
-      var fovStatus = fovEst ? '📐 预估视野 ' + fovEst.width + '×' + fovEst.height + 'mm' : '🔧 C-Mount';
+      var fovStatus = fovEst ? t('resultFovStatus', fovEst.width + '×' + fovEst.height) : '🔧 C-Mount';
       html += '<div class="modal-model-entry ' + (idx === 0 ? 'recommended' : '') + '">' +
         '<div class="modal-entry-header">' +
           '<span class="modal-model-name">' + m.model + '</span>' +
@@ -382,9 +587,9 @@
           '<div class="spec-item">🛡️ ' + m.protection + '</div>' +
           '<div class="spec-item">' + (m.focal ? '🔍 ' + m.focal + 'mm' : '🔧 C-Mount') + '</div>' +
         '</div>' +
-        '<div class="ppm-value-row"><span>📊 真实 PPM：<span class="ppm-value-highlight">' + ppmDisplay + '</span>' + ppmLevelDisplay + '</span></div>' +
+        '<div class="ppm-value-row"><span>' + t('resultPPM') + '：<span class="ppm-value-highlight">' + ppmDisplay + '</span>' + ppmLevelDisplay + '</span></div>' +
         '<div class="info-row">' +
-          '<span class="info-tag">📏 工作距离 ' + m.workingDist.min + '-' + m.workingDist.max + 'mm</span>' +
+          '<span class="info-tag">' + t('resultDist', m.workingDist.min + '-' + m.workingDist.max) + '</span>' +
           '<span class="info-tag">' + fovStatus + '</span>' +
         '</div>' +
         '<div class="reasons-row">' + item.reasons.map(function(r) { return '<span class="reason-badge">✨ ' + r + '</span>'; }).join('') + '</div>' +
@@ -438,7 +643,7 @@
     document.getElementById('fovWidth').value = '';
     document.getElementById('fovHeight').value = '';
     resetSchematic();
-    document.getElementById('top1Content').innerHTML = '<div class="empty-state">等待选型结果...</div>';
+    document.getElementById('top1Content').innerHTML = '<div class="empty-state">' + t('emptyState') + '</div>';
     document.getElementById('showModalBtn').disabled = true;
 
     // 绑定选型按钮

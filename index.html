@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>海康机器人 · 读码器选型工具</title>
+  <title data-i18n="title">海康机器人 · 读码器选型工具</title>
   <link rel="stylesheet" href="css/style.css?v=3">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <link rel="preload" href="js/data/product_db.js" as="script">
+  <link rel="preload" href="js/data/peidan.js" as="script">
 </head>
 <body>
 <div class="app-window">
@@ -27,10 +26,10 @@
       </h1>
     </div>
     <div class="titlebar-actions">
-      <button class="titlebar-btn" id="langBtnMobile" onclick="toggleLang()">中/EN</button>
+      <button class="titlebar-btn" id="langBtnMobile" onclick="toggleLang()" data-i18n="langBtn">EN</button>
       <button class="titlebar-btn" id="themeBtnMobile" onclick="toggleTheme()">🌙</button>
     </div>
-    <div class="status-badge">计算结果仅供参考，建议实测验证</div>
+    <div class="status-badge" data-i18n="status">计算结果仅供参考，建议实测验证</div>
   </div>
 
   <!-- BODY -->
@@ -39,19 +38,19 @@
     <!-- NAV SIDEBAR -->
     <nav class="nav-tabs" role="tablist">
       <button class="nav-tab active" data-page="page-selection" role="tab">
-        <span class="nav-tab-icon">⚡</span>智能选型
+        <span class="nav-tab-icon">⚡</span><span data-i18n="tab1">智能选型</span>
       </button>
       <button class="nav-tab" data-page="page-competitor" role="tab">
-        <span class="nav-tab-icon">🔬</span>竞品对标
+        <span class="nav-tab-icon">🔬</span><span data-i18n="tab2">竞品对标</span>
       </button>
       <button class="nav-tab" data-page="page-bom" role="tab">
-        <span class="nav-tab-icon">📋</span>配单表
+        <span class="nav-tab-icon">📋</span><span data-i18n="tab3">配单表</span>
       </button>
       <button class="nav-tab" data-page="page-mapping" role="tab">
-        <span class="nav-tab-icon">🔄</span>对照表
+        <span class="nav-tab-icon">🔄</span><span data-i18n="tab4">对照表</span>
       </button>
       <div class="nav-footer">
-        <button class="nav-footer-btn" id="langBtn" onclick="toggleLang()">中/EN</button>
+        <button class="nav-footer-btn" id="langBtn" onclick="toggleLang()" data-i18n="langBtn">EN</button>
         <button class="nav-footer-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
       </div>
     </nav>
@@ -61,67 +60,67 @@
       <div class="main-content">
         <div class="left-panel">
           <div class="card">
-            <div class="card-header">📋 核心参数配置</div>
+            <div class="card-header" data-i18n="card1">📋 核心参数配置</div>
             
             <div class="form-section">
-              <div class="form-section-title">🔖 码制 &amp; 模块尺寸</div>
+              <div class="form-section-title" data-i18n="sec1">🔖 码制 &amp; 模块尺寸</div>
               <div class="compact-grid">
                 <div>
-                  <label>码制类型 *</label>
+                  <label data-i18n="codeType">码制类型 *</label>
                   <select id="codeType">
-                    <option value="">-- 请选择 --</option>
-                    <option value="QR">二维码 (2D)</option>
-                    <option value="Code39">一维码 (1D)</option>
+                    <option value="" data-i18n="codeTypePh">-- 请选择 --</option>
+                    <option value="QR" data-i18n="codeType2D">二维码 (2D)</option>
+                    <option value="Code39" data-i18n="codeType1D">一维码 (1D)</option>
                   </select>
                 </div>
                 <div>
-                  <label>模块尺寸 *</label>
+                  <label data-i18n="moduleSize">模块尺寸 *</label>
                   <div class="input-row">
-                    <input type="number" id="moduleSize" value="" placeholder="请输入">
+                    <input type="number" id="moduleSize" value="" data-i18n-ph="placeholder" placeholder="请输入">
                     <select id="moduleUnit"><option value="mil">mil</option><option value="mm" selected>mm</option></select>
                   </div>
                 </div>
               </div>
               <div class="code-img-container">
-                <img src="code-type-desc.png" data-dark-src="code-type-desc-dark.png" alt="码制类型与模块尺寸说明" class="code-type-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22120%22%3E%3Crect width=%22400%22 height=%22120%22 fill=%22%23fef3e8%22 rx=%2212%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23f76504%22 font-size=%2214%22%3E📖 码制示意：QR / Code39%3C/text%3E%3C/svg%3E';">
-                <div class="img-caption">💡 码制类型与模块尺寸说明</div>
+                <img src="code-type-desc.png" data-dark-src="code-type-desc-dark.png" alt="码制类型与模块尺寸说明" data-i18n-alt="imgCaption" class="code-type-img" loading="lazy" decoding="async" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22120%22%3E%3Crect width=%22400%22 height=%22120%22 fill=%22%23fef3e8%22 rx=%2212%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23f76504%22 font-size=%2214%22%3E📖 码制示意：QR / Code39%3C/text%3E%3C/svg%3E';">
+                <div class="img-caption" data-i18n="imgCaption">💡 码制类型与模块尺寸说明</div>
               </div>
             </div>
 
             <div class="form-section">
-              <div class="form-section-title">📐 距离 &amp; 视野参数</div>
+              <div class="form-section-title" data-i18n="sec2">📐 距离 &amp; 视野参数</div>
               <div class="compact-grid compact-grid-1">
                 <div>
-                  <label>工作距离 *</label>
+                  <label data-i18n="workDist">工作距离 *</label>
                   <div class="input-row">
-                    <input type="number" id="workingDistance" value="" placeholder="请输入">
+                    <input type="number" id="workingDistance" value="" data-i18n-ph="placeholder" placeholder="请输入">
                     <select id="distanceUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
                   </div>
                 </div>
                 <div>
-                  <label>期望视野宽度 *</label>
+                  <label data-i18n="fovW">期望视野宽度 *</label>
                   <div class="input-row">
-                    <input type="number" id="fovWidth" value="" placeholder="请输入">
+                    <input type="number" id="fovWidth" value="" data-i18n-ph="placeholder" placeholder="请输入">
                     <select id="fovUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
                   </div>
                 </div>
                 <div>
-                  <label>期望视野高度 *</label>
+                  <label data-i18n="fovH">期望视野高度 *</label>
                   <div class="input-row">
-                    <input type="number" id="fovHeight" value="" placeholder="请输入">
+                    <input type="number" id="fovHeight" value="" data-i18n-ph="placeholder" placeholder="请输入">
                     <select id="fovHeightUnit"><option value="mm" selected>mm</option><option value="cm">cm</option></select>
                   </div>
                 </div>
               </div>
             </div>
 
-            <button class="btn-primary" id="runBtn">⚡ 开始智能选型</button>
+            <button class="btn-primary" id="runBtn" data-i18n="runBtn">⚡ 开始智能选型</button>
           </div>
         </div>
 
         <div class="right-panel">
           <div class="card">
-            <div class="card-header">📐 方案示意图</div>
+            <div class="card-header" data-i18n="card2">📐 方案示意图</div>
             <div id="calcContent">
               <div class="schematic-wrap">
                 <svg id="schematicSvg" viewBox="0 0 580 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block; background:#F5F7FA; border-radius:8px;">
@@ -134,10 +133,10 @@
                   <line x1="400" y1="207" x2="520" y2="150" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
                   <line x1="440" y1="207" x2="520" y2="190" stroke="#f76504" stroke-width="0.8" opacity="0.35"/>
                   <line x1="380" y1="80" x2="520" y2="80" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowLeftRed)" marker-end="url(#arrowRightRed)"/>
-                  <text x="450" y="70" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估宽度</text>
+                  <text x="450" y="70" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle" data-i18n="svgEstW">预估宽度</text>
                   <text class="svg-label-value" id="lblFovW" x="450" y="58" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <line x1="366" y1="95" x2="366" y2="207" stroke="#f76504" stroke-width="1.2" marker-start="url(#arrowUpRed)" marker-end="url(#arrowDownRed)"/>
-                  <text x="325" y="156" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle">预估高度</text>
+                  <text x="325" y="156" fill="#f76504" font-size="10" font-family="sans-serif" text-anchor="middle" data-i18n="svgEstH">预估高度</text>
                   <text class="svg-label-value" id="lblFovH" x="325" y="169" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <rect x="42" y="122" width="56" height="56" fill="#1A2B4A" rx="8"/>
                   <rect x="50" y="130" width="40" height="40" fill="#243556" rx="6"/>
@@ -149,9 +148,9 @@
                   <line x1="70" y1="150" x2="380" y2="95"  stroke="#f76504" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
                   <line x1="70" y1="150" x2="380" y2="207" stroke="#f76504" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
                   <line x1="70" y1="265" x2="380" y2="265" stroke="#4A5A6A" stroke-width="1.2" marker-start="url(#arrowLeftGray)" marker-end="url(#arrowRightGray)"/>
-                  <text x="225" y="282" fill="#4A5A6A" font-size="10" font-family="sans-serif" text-anchor="middle">工作距离</text>
+                  <text x="225" y="282" fill="#4A5A6A" font-size="10" font-family="sans-serif" text-anchor="middle" data-i18n="svgWd">工作距离</text>
                   <text class="svg-label-value" id="lblWd" x="225" y="260" fill="#1A2332" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
-                  <text x="155" y="148" fill="#8A9BAC" font-size="9.5" font-family="sans-serif" text-anchor="middle">焦距</text>
+                  <text x="155" y="148" fill="#8A9BAC" font-size="9.5" font-family="sans-serif" text-anchor="middle" data-i18n="svgFocal">焦距</text>
                   <text class="svg-label-value" id="lblFocal" x="155" y="162" fill="#1A2332" font-size="10.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">— mm</text>
                   <defs>
                     <marker id="arrowUpRed"    markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto"><path d="M3,0 L0,6 L6,6 Z" fill="#f76504"/></marker>
@@ -167,9 +166,9 @@
           </div>
 
           <div class="card">
-            <div class="card-header">🏆 最佳推荐型号</div>
-            <div id="top1Content"><div class="empty-state">等待选型结果...</div></div>
-            <button class="btn-outline" id="showModalBtn" disabled>📋 查看所有满足条件的型号清单</button>
+            <div class="card-header" data-i18n="card3">🏆 最佳推荐型号</div>
+            <div id="top1Content"><div class="empty-state" data-i18n="emptyState">等待选型结果...</div></div>
+            <button class="btn-outline" id="showModalBtn" disabled data-i18n="showModal">📋 查看所有满足条件的型号清单</button>
           </div>
         </div>
       </div>
@@ -182,12 +181,12 @@
         <!-- 工具栏 -->
         <div class="cp-toolbar">
           <div class="cp-search-wrap">
-            <input type="text" id="cpSearchInput" class="cp-search-input" placeholder="搜索友商型号 / 海康型号，如 SR-1000、ID3013PM…" autocomplete="off">
+            <input type="text" id="cpSearchInput" class="cp-search-input" data-i18n-ph="cpSearch" placeholder="搜索友商型号 / 海康型号，如 SR-1000、ID3013PM…" autocomplete="off">
           </div>
           <div class="cp-filter-wrap">
-            <span class="cp-filter-label">品牌筛选</span>
+            <span class="cp-filter-label" data-i18n="cpBrandLabel">品牌筛选</span>
             <select id="cpBrandSelect" class="cp-brand-select">
-              <option value="all">全部品牌</option>
+              <option value="all" data-i18n="cpBrandAll">全部品牌</option>
               <option value="Cognex">Cognex</option>
               <option value="Keyence">Keyence</option>
               <option value="Datalogic">Datalogic</option>
@@ -197,18 +196,18 @@
               <option value="新大陆">新大陆</option>
             </select>
           </div>
-          <button class="cp-btn-expand" id="cpExpandAllBtn">📂 展开所有</button>
+          <button class="cp-btn-expand" id="cpExpandAllBtn" data-i18n="cpExpand">📂 展开所有</button>
         </div>
 
         <!-- 状态栏 -->
         <div class="cp-statsbar">
-          <span id="cpStatsMsg">共 0 条对标记录</span>
-          <span class="cp-statsbar-hint">蓝色 = 友商核心特点 · 绿色 = 海康竞争优势</span>
+          <span id="cpStatsMsg" data-i18n="cpStats">共 0 条对标记录</span>
+          <span class="cp-statsbar-hint" data-i18n="cpStatsHint">蓝色 = 友商核心特点 · 绿色 = 海康竞争优势</span>
         </div>
 
         <!-- 结果区 -->
         <div class="cp-result-area" id="cpResultArea">
-          <div class="cp-empty">✨ 点击「展开所有」浏览全部对标数据，或在搜索框输入关键词自动匹配</div>
+          <div class="cp-empty" data-i18n-html="cpEmpty">✨ 点击「展开所有」浏览全部对标数据，或在搜索框输入关键词自动匹配</div>
         </div>
 
       </div>
@@ -222,38 +221,38 @@
         <div class="bom-left">
           <div class="bom-left-header">
             <span class="bom-left-icon">📋</span>
-            <span class="bom-left-title">配单配置</span>
+            <span class="bom-left-title" data-i18n="bomConfig">配单配置</span>
           </div>
           <div class="bom-left-inner">
 
             <!-- 型号选择区 -->
             <div class="bom-group">
-              <div class="bom-group-label">型号选择</div>
+              <div class="bom-group-label" data-i18n="bomModelSel">型号选择</div>
               <div class="bom-field">
-                <div class="bom-field-label"><span class="bom-step-num">1</span> 产品大类</div>
+                <div class="bom-field-label"><span class="bom-step-num">1</span> <span data-i18n="bomStep1">产品大类</span></div>
                 <select class="bom-select" id="bomCatSel">
-                  <option value="">-- 请选择产品大类 --</option>
+                  <option value="" data-i18n="bomCatPh">-- 请选择产品大类 --</option>
                 </select>
               </div>
               <div class="bom-field">
-                <div class="bom-field-label"><span class="bom-step-num">2</span> 产品系列</div>
+                <div class="bom-field-label"><span class="bom-step-num">2</span> <span data-i18n="bomStep2">产品系列</span></div>
                 <select class="bom-select" id="bomSerSel" disabled>
-                  <option value="">-- 请先选择大类 --</option>
+                  <option value="" data-i18n="bomSerPh">-- 请先选择大类 --</option>
                 </select>
               </div>
               <div class="bom-field">
-                <div class="bom-field-label"><span class="bom-step-num">3</span> 具体型号</div>
+                <div class="bom-field-label"><span class="bom-step-num">3</span> <span data-i18n="bomStep3">具体型号</span></div>
                 <select class="bom-select" id="bomModelSel" disabled>
-                  <option value="">-- 请先选择系列 --</option>
+                  <option value="" data-i18n="bomModelPh">-- 请先选择系列 --</option>
                 </select>
               </div>
             </div>
 
             <!-- 选装配件 -->
             <div class="bom-group bom-group-acc">
-              <div class="bom-group-label">选装配件</div>
+              <div class="bom-group-label" data-i18n="bomAcc">选装配件</div>
               <div class="bom-acc-list" id="bomAccList">
-                <div class="bom-acc-empty">请先完成产品型号选择</div>
+                <div class="bom-acc-empty" data-i18n="bomAccEmpty">请先完成产品型号选择</div>
               </div>
             </div>
 
@@ -261,7 +260,7 @@
 
           <!-- 生成按钮固定在底部 -->
           <div class="bom-left-footer">
-            <button class="bom-add-btn" id="bomAddToListBtn" disabled>⚡ 生成配单</button>
+            <button class="bom-add-btn" id="bomAddToListBtn" disabled data-i18n="bomAdd">⚡ 生成配单</button>
           </div>
         </div>
 
@@ -271,38 +270,38 @@
           <!-- 右侧顶部 header（与左侧配单配置对齐） -->
           <div class="bom-right-header">
             <span class="bom-left-icon">📊</span>
-            <span class="bom-left-title">配单明细</span>
+            <span class="bom-left-title" data-i18n="bomDetail">配单明细</span>
           </div>
 
           <!-- 顶部工具栏 -->
           <div class="bom-right-toolbar">
             <div class="bom-toolbar-left">
               <div class="bom-legend-inline">
-                <span class="bom-legend-item main">■ 主机</span>
-                <span class="bom-legend-item std">■ 标配</span>
-                <span class="bom-legend-item opt">■ 选配</span>
+                <span class="bom-legend-item main" data-i18n="bomLegendMain">■ 主机</span>
+                <span class="bom-legend-item std" data-i18n="bomLegendStd">■ 标配</span>
+                <span class="bom-legend-item opt" data-i18n="bomLegendOpt">■ 选配</span>
               </div>
             </div>
             <div class="bom-toolbar-actions">
               <div class="bom-stats-row">
                 <div class="bom-stat">
                   <div class="bom-stat-num" id="bomStatTotal">0</div>
-                  <div class="bom-stat-label">总计</div>
+                  <div class="bom-stat-label" data-i18n="bomStatTotal">总计</div>
                 </div>
                 <div class="bom-stat-divider"></div>
                 <div class="bom-stat">
                   <div class="bom-stat-num" id="bomStatMain">0</div>
-                  <div class="bom-stat-label">主机</div>
+                  <div class="bom-stat-label" data-i18n="bomStatMain">主机</div>
                 </div>
                 <div class="bom-stat-divider"></div>
                 <div class="bom-stat">
                   <div class="bom-stat-num" id="bomStatAcc">0</div>
-                  <div class="bom-stat-label">配件</div>
+                  <div class="bom-stat-label" data-i18n="bomStatAcc">配件</div>
                 </div>
               </div>
               <div class="bom-toolbar-btns">
-                <button class="bom-btn-reset" id="bomQClearBtn">重置</button>
-                <button class="bom-btn-export" id="bomQExportBtn">⬇ 导出 CSV</button>
+                <button class="bom-btn-reset" id="bomQClearBtn" data-i18n="bomReset">重置</button>
+                <button class="bom-btn-export" id="bomQExportBtn" data-i18n="bomExport">⬇ 导出 CSV</button>
               </div>
             </div>
           </div>
@@ -312,23 +311,23 @@
             <table class="bom-q-table">
               <thead>
                 <tr>
-                  <th style="width:28px;text-align:center">#</th>
-                  <th style="width:88px;text-align:center">类型</th>
-                  <th style="min-width:120px;text-align:center">物料名称</th>
-                  <th style="text-align:center">描述</th>
-                  <th style="width:96px;text-align:center">物料代码</th>
-                  <th style="width:36px;text-align:center">操作</th>
+                  <th style="width:28px;text-align:center" data-i18n="bomThIdx">#</th>
+                  <th style="width:88px;text-align:center" data-i18n="bomThType">类型</th>
+                  <th style="min-width:120px;text-align:center" data-i18n="bomThName">物料名称</th>
+                  <th style="text-align:center" data-i18n="bomThDesc">描述</th>
+                  <th style="width:96px;text-align:center" data-i18n="bomThCode">物料代码</th>
+                  <th style="width:36px;text-align:center" data-i18n="bomThAction">操作</th>
                 </tr>
               </thead>
               <tbody id="bomQBody">
-                <tr><td colspan="7" class="bom-q-empty">请选择型号，配单将自动生成</td></tr>
+                <tr><td colspan="7" class="bom-q-empty" data-i18n="bomEmpty">请选择型号，配单将自动生成</td></tr>
               </tbody>
             </table>
           </div>
 
           <div class="bom-right-footer">
-            <span id="bomQCount">共 0 行</span>
-            <span class="bom-footer-hint">💡 蓝色 = 主机 · 浅蓝 = 标配 · 浅橙 = 选配</span>
+            <span id="bomQCount" data-i18n="bomCount">共 0 行</span>
+            <span class="bom-footer-hint" data-i18n="bomFooterHint">💡 蓝色 = 主机 · 浅蓝 = 标配 · 浅橙 = 选配</span>
           </div>
         </div>
 
@@ -344,21 +343,21 @@
         <div class="mp-toolbar">
           <div class="mp-search-wrap">
             <input type="text" id="mpSearchInput" class="mp-search-input"
-              placeholder="搜索基线/经销 型号名称或物料代码，如 MV-ID803、IDA02X…" autocomplete="off">
+              data-i18n-ph="mpSearch" placeholder="搜索基线/经销 型号名称或物料代码，如 MV-ID803、IDA02X…" autocomplete="off">
           </div>
           <div class="mp-filter-wrap">
-            <span class="mp-filter-label">系列筛选</span>
+            <span class="mp-filter-label" data-i18n="mpCatLabel">系列筛选</span>
             <select id="mpCatSelect" class="mp-cat-select">
-              <option value="all">全部系列</option>
+              <option value="all" data-i18n="mpCatAll">全部系列</option>
             </select>
           </div>
-          <button class="mp-btn-expand" id="mpToggleAllBtn">📂 全部展开</button>
+          <button class="mp-btn-expand" id="mpToggleAllBtn" data-i18n="mpExpand">📂 全部展开</button>
         </div>
 
         <!-- 状态栏 -->
         <div class="mp-statsbar">
-          <span id="mpStats">共 0 条记录</span>
-          <span class="mp-statsbar-hint">基线 = 直销物料 · 经销 = 渠道物料 · 每行一一对应</span>
+          <span id="mpStats" data-i18n="mpStats">共 0 条记录</span>
+          <span class="mp-statsbar-hint" data-i18n="mpStatsHint">基线 = 直销物料 · 经销 = 渠道物料 · 每行一一对应</span>
         </div>
 
         <!-- 表格 -->
@@ -367,21 +366,21 @@
             <thead>
               <tr>
                 <th style="width:52px;text-align:center">#</th>
-                <th style="width:34%;text-align:center">基线型号</th>
-                <th style="width:130px;text-align:center">基线代码</th>
-                <th style="width:34%;text-align:center">经销型号</th>
-                <th style="width:130px;text-align:center">经销代码</th>
+                <th style="width:34%;text-align:center" data-i18n="mpThBaseModel">基线型号</th>
+                <th style="width:130px;text-align:center" data-i18n="mpThBaseCode">基线代码</th>
+                <th style="width:34%;text-align:center" data-i18n="mpThDistModel">经销型号</th>
+                <th style="width:130px;text-align:center" data-i18n="mpThDistCode">经销代码</th>
               </tr>
             </thead>
             <tbody id="mpTableBody">
-              <tr><td colspan="5" class="mp-empty">正在加载对照表数据…</td></tr>
+              <tr><td colspan="5" class="mp-empty" data-i18n="mpLoading">正在加载对照表数据…</td></tr>
             </tbody>
           </table>
         </div>
 
         <div class="mp-footer">
-          <span id="mpFooterCount">共 0 条</span>
-          <span class="mp-footer-hint">💡 支持搜索基线和经销的型号名称及物料代码</span>
+          <span id="mpFooterCount" data-i18n="mpCount">共 0 条</span>
+          <span class="mp-footer-hint" data-i18n="mpFooterHint">💡 支持搜索基线和经销的型号名称及物料代码</span>
         </div>
 
       </div>
@@ -395,46 +394,30 @@
 <div class="modal-overlay" id="modelModal">
   <div class="modal">
     <div class="modal-header">
-      <h2>📌 满足过滤条件的推荐型号</h2>
+      <h2 data-i18n="modalTitle">📌 满足过滤条件的推荐型号</h2>
       <button class="modal-close" id="closeModalBtn">&times;</button>
     </div>
     <div class="series-filter-bar">
-      <span class="filter-label">🔍 按系列筛选</span>
+      <span class="filter-label" data-i18n="filterLabel">🔍 按系列筛选</span>
       <div class="filter-check-group" id="seriesCheckGroup">
         <label class="series-check"><input type="checkbox" value="ID800" checked> <span class="check-dot"></span> ID800</label>
         <label class="series-check"><input type="checkbox" value="ID2000" checked> <span class="check-dot"></span> ID2000</label>
         <label class="series-check"><input type="checkbox" value="ID3000" checked> <span class="check-dot"></span> ID3000</label>
         <label class="series-check"><input type="checkbox" value="ID5000" checked> <span class="check-dot"></span> ID5000</label>
       </div>
-      <button class="filter-reset-btn" id="resetSeriesFilterBtn">全选</button>
+      <button class="filter-reset-btn" id="resetSeriesFilterBtn" data-i18n="filterReset">全选</button>
     </div>
     <div id="modalModelList" class="modal-model-list">
-      <div class="empty-state">请先进行选型</div>
+      <div class="empty-state" data-i18n="modalEmpty">请先进行选型</div>
     </div>
   </div>
 </div>
-
-<!-- ===== 脚本加载 ===== -->
-<!-- 1. 产品数据库 -->
-<script src="js/data/product_db.js"></script>
-
-<!-- 2. 主应用 -->
-<script src="js/app.js?v=3"></script>
-
-<!-- 3. 配单表 -->
-<script src="js/bom.js"></script>
-
-<!-- 4. 加载配单数据（script 标签兼容 file:// 本地打开） -->
-<!-- 📌 更新数据时只需修改 js/data/peidan.js 文件内容 -->
-<script src="js/data/peidan.js"></script>
-
-
 
   <!-- 选配配件 Modal -->
   <div class="acc-modal-overlay" id="accModal">
     <div class="acc-modal-box">
       <div class="acc-modal-header">
-        <span class="acc-modal-title" id="accModalTitle">选装配件</span>
+        <span class="acc-modal-title" id="accModalTitle" data-i18n="accTitle">选装配件</span>
         <button class="acc-modal-close" id="accModalClose">✕</button>
       </div>
       <div class="acc-modal-body">
@@ -442,14 +425,19 @@
         <div class="acc-modal-list" id="accModalList"></div>
       </div>
       <div class="acc-modal-footer">
-        <span class="acc-modal-hint">点击配件行即可勾选/取消</span>
-        <button class="acc-modal-done" id="accModalClose2">完成</button>
+        <span class="acc-modal-hint" data-i18n="accHint">点击配件行即可勾选/取消</span>
+        <button class="acc-modal-done" id="accModalClose2" data-i18n="accDone">完成</button>
       </div>
     </div>
   </div>
 
+  <!-- ===== 脚本加载（数据优先，模块在后） ===== -->
+  <script src="js/data/product_db.js"></script>
   <script src="js/data/competitor.js"></script>
   <script src="js/data/mapping.js"></script>
+  <script src="js/app.js?v=4"></script>
+  <script src="js/bom.js"></script>
+  <script src="js/data/peidan.js"></script>
   <script src="js/mapping_module.js"></script>
 </body>
 </html>

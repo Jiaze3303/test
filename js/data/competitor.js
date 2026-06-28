@@ -6,6 +6,12 @@
 (function() {
   'use strict';
 
+  // ─── i18n 辅助 ───
+  function _t(key, n) {
+    if (window._i18n && window._i18n.t) return window._i18n.t(key, n);
+    return key;
+  }
+
   // ======================= 竞品数据库 =======================
   var competitorDB = [
     { brand: "Cognex", model: "DM70 / DM80", competitorDesc: "DM70:0.36/1.2MP 算法分为S/QL/Q；DM80:1.6MP液态对焦，支持HDR，紧凑小型化", hikModel: "ID2013EMI", advantageDesc: "超高性价比，IO接口更丰富（2入2出），算法性能无差别对标Q系列，工业协议标配，光源颜色可选多" },
@@ -89,8 +95,8 @@
     if (!resultArea) return;
 
     if (currentDisplayData.length === 0) {
-      resultArea.innerHTML = '<div class="cp-empty">😔 未找到匹配记录<br><span>尝试其他关键词，支持友商型号 / 海康型号混合搜索</span></div>';
-      if (statsMsg) statsMsg.textContent = '共 0 条记录';
+      resultArea.innerHTML = '<div class="cp-empty">😔 ' + _t('cpNoMatch') + '<br><span>' + _t('cpNoMatchHint') + '</span></div>';
+      if (statsMsg) statsMsg.textContent = _t('cpStats', 0);
       return;
     }
 
@@ -109,15 +115,15 @@
         '</div>' +
         '<div class="cp-card-detail' + (isOpen ? ' open' : '') + '" id="' + cardId + '">' +
           '<div class="cp-detail-row">' +
-            '<div class="cp-detail-label competitor">📌 友商特点</div>' +
+            '<div class="cp-detail-label competitor">📌 ' + _t('cpFeatLabel') + '</div>' +
             '<div class="cp-detail-value competitor-desc">' + escapeHtml(item.competitorDesc) + '</div>' +
           '</div>' +
           '<div class="cp-detail-row">' +
-            '<div class="cp-detail-label advantage">✨ 我方优势</div>' +
+            '<div class="cp-detail-label advantage">✨ ' + _t('cpAdvLabel') + '</div>' +
             '<div class="cp-detail-value advantage-text">' + escapeHtml(item.advantageDesc) + '</div>' +
           '</div>' +
           '<div class="cp-detail-row last">' +
-            '<div class="cp-detail-label">🎯 推荐型号</div>' +
+            '<div class="cp-detail-label">🎯 ' + _t('cpRecLabel') + '</div>' +
             '<div class="cp-detail-value"><strong class="cp-hik-model">' + escapeHtml(item.hikModel) + '</strong></div>' +
           '</div>' +
         '</div>' +
@@ -127,10 +133,10 @@
     resultArea.innerHTML = html;
 
     if (statsMsg) {
-      statsMsg.textContent = '共 ' + currentDisplayData.length + ' 条对标记录';
+      statsMsg.textContent = _t('cpStats', currentDisplayData.length);
     }
     if (expandBtn) {
-      expandBtn.textContent = allCardsExpanded ? '📁 折叠所有' : '📂 展开所有';
+      expandBtn.textContent = allCardsExpanded ? _t('cpCollapse') : _t('cpExpand');
     }
 
     // 事件委托绑定展开/折叠
@@ -144,7 +150,7 @@
         if (icon) icon.textContent = isOpen ? '▼' : '▶';
         if (allCardsExpanded && !isOpen) {
           allCardsExpanded = false;
-          if (expandBtn) expandBtn.textContent = '📂 展开所有';
+          if (expandBtn) expandBtn.textContent = _t('cpExpand');
         }
       });
     });

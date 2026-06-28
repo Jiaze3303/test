@@ -24,10 +24,16 @@
     return cats;
   }
 
+  // ─── i18n 辅助 ───
+  function _t(key, n) {
+    if (window._i18n && window._i18n.t) return window._i18n.t(key, n);
+    return key;
+  }
+
   function initCatFilter() {
     var sel = document.getElementById('mpCatSelect');
     if (!sel) return;
-    sel.innerHTML = '<option value="all">全部系列</option>';
+    sel.innerHTML = '<option value="all">' + _t('mpCatAll') + '</option>';
     getUniqueCats().forEach(function(c) {
       var o = document.createElement('option');
       o.value = c; o.textContent = c;
@@ -52,10 +58,10 @@
     var stats = document.getElementById('mpStats');
     if (!tbody) return;
 
-    if (stats) stats.textContent = '共 ' + currentData.length + ' 条记录';
+    if (stats) stats.textContent = _t('mpStats', currentData.length);
 
     if (!currentData.length) {
-      tbody.innerHTML = '<tr><td colspan="5" class="mp-empty">😔 未找到匹配记录，请调整搜索条件</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="mp-empty">' + _t('mpNoMatch') + '</td></tr>';
       return;
     }
 
@@ -79,7 +85,7 @@
         '<td colspan="5">' +
           '<span class="mp-cat-toggle">' + (isOpen ? '▼' : '▶') + '</span>' +
           '📂 ' + esc(cat) +
-          '<span class="mp-cat-badge">' + rows.length + ' 条</span>' +
+          '<span class="mp-cat-badge">' + _t('mpRecords', rows.length) + '</span>' +
         '</td></tr>';
 
       if (isOpen) {
@@ -116,7 +122,7 @@
   function updateToggleBtn() {
     var btn = document.getElementById('mpToggleAllBtn');
     if (!btn) return;
-    btn.textContent = isAllExpanded() ? '📁 全部收起' : '📂 全部展开';
+    btn.textContent = isAllExpanded() ? _t('mpCollapse') : _t('mpExpand');
   }
 
   function toggleAll() {
@@ -168,5 +174,5 @@
     init();
   }
 
-  window.MAPPING = { applyData: applyData, reset: reset, getData: function() { return db; } };
+  window.MAPPING = { applyData: applyData, reset: function() { db = []; currentData = []; expandedCats = {}; render(); }, getData: function() { return db; }, rerender: function() { initCatFilter(); doFilter(); } };
 })();

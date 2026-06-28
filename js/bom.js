@@ -37,9 +37,9 @@
     var modelList = data.modelList || [];
     
     modelList.forEach(function(item, index) {
-      var cat = (item.productCategory || '未分类').trim();
-      var ser = (item.productSeries || '未分类').trim();
-      var model = (item.productModel || '未知型号').trim();
+      var cat = (item.productCategory || _t('bomUncategorized')).trim();
+      var ser = (item.productSeries || _t('bomUncategorized')).trim();
+      var model = (item.productModel || _t('bomUnknownModel')).trim();
 
       if (!tree[cat]) tree[cat] = {};
       if (!tree[cat][ser]) tree[cat][ser] = { mains: [] };
@@ -49,7 +49,7 @@
         tree[cat][ser].mains.push({
           n: model,
           c: model,
-          d: '读码器主机',
+          d: _t('bomReadHost'),
           index: index,
           standardAcc: (item.standardAccessories || []).map(function(a, idx) {
             return { 
@@ -106,12 +106,19 @@
     });
   }
 
+  // ─── i18n 辅助 ───
+  function _t(key, n) {
+    if (window._i18n && window._i18n.t) return window._i18n.t(key, n);
+    // fallback: 返回 key
+    return key;
+  }
+
   // ─── 下拉菜单渲染 ───
   function renderCatSel() {
     var sel = document.getElementById('bomCatSel');
     if (!sel) return;
     var cur = sel.value;
-    sel.innerHTML = '<option value="">-- 请选择产品大类 --</option>';
+    sel.innerHTML = '<option value="">' + _t('bomCatPh') + '</option>';
     cats.forEach(function(c) {
       var o = document.createElement('option');
       o.value = c;
@@ -128,7 +135,7 @@
   function renderSerSel() {
     var sel = document.getElementById('bomSerSel');
     if (!sel) return;
-    sel.innerHTML = '<option value="">-- 请先选择大类 --</option>';
+    sel.innerHTML = '<option value="">' + _t('bomSerPh') + '</option>';
     sel.disabled = true;
     if (!selState.cat || !tree[selState.cat]) {
       selState.ser = '';
@@ -154,7 +161,7 @@
   function renderModelSel() {
     var sel = document.getElementById('bomModelSel');
     if (!sel) return;
-    sel.innerHTML = '<option value="">-- 请先选择系列 --</option>';
+    sel.innerHTML = '<option value="">' + _t('bomModelPh') + '</option>';
     sel.disabled = true;
     if (!selState.cat || !selState.ser || !tree[selState.cat] || !tree[selState.cat][selState.ser]) {
       selState.modelIdx = null;
@@ -183,7 +190,7 @@
     if (!container) return;
     var m = getCurrentModel();
     if (!m) {
-      container.innerHTML = '<div class="bom-acc-empty">请先完成产品型号选择</div>';
+      container.innerHTML = '<div class="bom-acc-empty">' + _t('bomAccEmpty') + '</div>';
       return;
     }
 
@@ -196,7 +203,7 @@
     });
 
     if (!optionalAccs.length) {
-      container.innerHTML = '<div class="bom-acc-empty" style="color:#0b5e42;">✅ 无选装配件，标配 ' + standardAccs.length + ' 项已自动包含</div>';
+      container.innerHTML = '<div class="bom-acc-empty" style="color:#0b5e42;">✅ ' + _t('bomNoOptAcc', standardAccs.length) + '</div>';
       return;
     }
 
@@ -216,7 +223,7 @@
         '<div class="bom-cat-icon">' + getCatIcon(cat) + '</div>' +
         '<div class="bom-cat-info">' +
           '<div class="bom-cat-name">' + esc(cat) + '</div>' +
-          '<div class="bom-cat-count">' + items.length + ' 个配件' + (checkedCount ? ' · <span class="bom-cat-checked">' + checkedCount + ' 已选</span>' : '') + '</div>' +
+          '<div class="bom-cat-count">' + _t('bomAccCount', items.length) + (checkedCount ? ' · <span class="bom-cat-checked">' + _t('bomSelected', checkedCount) + '</span>' : '') + '</div>' +
         '</div>' +
         '<div class="bom-cat-arrow">›</div>' +
       '</div>';
@@ -452,7 +459,7 @@
 
     var setStat = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
     var countEl = document.getElementById('bomQCount');
-    if (countEl) countEl.textContent = '共 ' + bomList.length + ' 行';
+    if (countEl) countEl.textContent = _t('bomCount', bomList.length);
     setStat('bomStatTotal', bomList.length);
     setStat('bomStatMain',  bomList.filter(function(r) { return r.type === '主机'; }).length);
     setStat('bomStatAcc',   bomList.filter(function(r) { return r.type === '配件'; }).length);
@@ -460,7 +467,7 @@
     if (!bomList.length) {
       tbody.innerHTML = 
         '<tr>' +
-          '<td colspan="6" class="bom-q-empty" style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted);">请选择型号，配单将自动生成</td>' +
+          '<td colspan="6" class="bom-q-empty" style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted);">' + _t('bomEmpty') + '</td>' +
         '</tr>';
       return;
     }
@@ -644,7 +651,14 @@
     clearBOM: clearBOM,
     getData: function() { return bomList; },
     getTree: function() { return tree; },
-    getCats: function() { return cats; }
+    getCats: function() { return cats; },
+    rerender: function() {
+      renderCatSel();
+      renderSerSel();
+      renderModelSel();
+      renderAccList();
+      renderTable();
+    }
   };
 
 })();
