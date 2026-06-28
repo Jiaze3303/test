@@ -733,8 +733,44 @@ document.addEventListener('keydown',function(e){
 });
 
 // ═══════════════════════════ INIT ═══════════════════════════
+
+// 自动加载已有数据文件
+function autoLoadData() {
+  // 配单数据
+  if (window.PEIDAN_DATA && window.PEIDAN_DATA.modelList) {
+    state.peidan = window.PEIDAN_DATA.modelList;
+    console.log('✅ 自动加载配单数据：' + state.peidan.length + ' 条');
+  }
+  // 对照表
+  if (window.MAPPING_DATA && Array.isArray(window.MAPPING_DATA)) {
+    state.mapping = window.MAPPING_DATA;
+    console.log('✅ 自动加载对照表：' + state.mapping.length + ' 条');
+  }
+  // 竞品对标
+  if (window.competitorDB && Array.isArray(window.competitorDB)) {
+    state.competitor = window.competitorDB;
+    console.log('✅ 自动加载竞品数据：' + state.competitor.length + ' 条');
+  }
+  // 选型产品库
+  if (window.PRODUCT_DB && Array.isArray(window.PRODUCT_DB)) {
+    state.product = window.PRODUCT_DB;
+    console.log('✅ 自动加载产品库：' + state.product.length + ' 条');
+  }
+  updateCounts();
+  renderList();
+}
+
+// 延迟加载：等待数据脚本执行完毕
+setTimeout(autoLoadData, 200);
+
 updateCounts();
 renderList();
 </script>
+
+<!-- 自动加载数据文件 -->
+<script src="js/data/product_db.js"></script>
+<script src="js/data/competitor.js"></script>
+<script src="js/data/mapping.js"></script>
+<script src="js/data/peidan.js"></script>
 </body>
 </html>
