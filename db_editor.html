@@ -746,14 +746,14 @@ function autoLoadData() {
     state.mapping = window.MAPPING_DATA;
     console.log('✅ 自动加载对照表：' + state.mapping.length + ' 条');
   }
-  // 竞品对标
-  if (window.competitorDB && Array.isArray(window.competitorDB)) {
-    state.competitor = window.competitorDB;
+  // 竞品对标（competitor.js 通过 window.COMPETITOR 暴露）
+  if (window.COMPETITOR && window.COMPETITOR.getData) {
+    state.competitor = window.COMPETITOR.getData();
     console.log('✅ 自动加载竞品数据：' + state.competitor.length + ' 条');
   }
-  // 选型产品库
-  if (window.PRODUCT_DB && Array.isArray(window.PRODUCT_DB)) {
-    state.product = window.PRODUCT_DB;
+  // 选型产品库（product_db.js 用 const 声明，挂在顶层）
+  if (typeof PRODUCT_DB !== 'undefined' && Array.isArray(PRODUCT_DB)) {
+    state.product = PRODUCT_DB;
     console.log('✅ 自动加载产品库：' + state.product.length + ' 条');
   }
   updateCounts();
@@ -761,7 +761,7 @@ function autoLoadData() {
 }
 
 // 延迟加载：等待数据脚本执行完毕
-setTimeout(autoLoadData, 200);
+setTimeout(autoLoadData, 500);
 
 updateCounts();
 renderList();
